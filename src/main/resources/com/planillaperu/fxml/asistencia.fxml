@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.planillaperu.ui.components.RonaldmichaWorkerPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.planillaperu.ui.RonaldmichaAsistenciaController" fitToWidth="true" hbarPolicy="NEVER">
+    <VBox styleClass="view">
+        <VBox styleClass="card" spacing="8">
+            <RonaldmichaWorkerPicker fx:id="picker"/>
+            <Label fx:id="titulo" styleClass="title-md"/>
+        </VBox>
+
+        <HBox spacing="16">
+            <VBox fx:id="tarjetaHorario" styleClass="card" spacing="12" prefWidth="430" minWidth="360"/>
+            <VBox styleClass="card" spacing="12" HBox.hgrow="ALWAYS" maxWidth="Infinity" minWidth="0">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label fx:id="tituloResumen" styleClass="title-md"/>
+                    <Label fx:id="chipOrigen" styleClass="chip" minWidth="-Infinity"/>
+                    <Label fx:id="chipSoloLectura" styleClass="chip, warning" text="Periodo cerrado · solo lectura"
+                           minWidth="-Infinity"/>
+                </HBox>
+                <FlowPane fx:id="kpis" hgap="10" vgap="10"/>
+                <FlowPane hgap="10" vgap="8" alignment="CENTER_LEFT">
+                    <Label text="Feriados del mes" styleClass="field-label" minWidth="-Infinity"/>
+                    <FlowPane fx:id="chipsFeriados" hgap="6" vgap="6" alignment="CENTER_LEFT"/>
+                    <HBox fx:id="agregarFeriado" spacing="6" alignment="CENTER_LEFT" minWidth="-Infinity"/>
+                </FlowPane>
+                <VBox fx:id="alertas" spacing="6"/>
+                <FlowPane fx:id="acciones" hgap="8" vgap="8"/>
+            </VBox>
+        </HBox>
+
+        <VBox styleClass="card, table-card">
+            <TableView fx:id="tabla" prefHeight="620" editable="true">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN"/>
+                </columnResizePolicy>
+                <columns>
+                    <TableColumn fx:id="colFecha" text="Fecha" prefWidth="64" sortable="false"/>
+                    <TableColumn fx:id="colDia" text="Día" prefWidth="52" sortable="false"/>
+                    <TableColumn fx:id="colTipo" text="Tipo" prefWidth="170" sortable="false"/>
+                    <TableColumn fx:id="colIngreso" text="Ingreso" prefWidth="78" sortable="false"/>
+                    <TableColumn fx:id="colSalida" text="Salida" prefWidth="78" sortable="false"/>
+                    <TableColumn fx:id="colHoras" text="Horas" prefWidth="66" sortable="false"/>
+                    <TableColumn fx:id="colTardanza" text="Tardanza" prefWidth="76" sortable="false"/>
+                    <TableColumn fx:id="colSobretiempo" text="Sobretiempo" prefWidth="92" sortable="false"/>
+                    <TableColumn fx:id="colEstado" text="Estado" prefWidth="160" sortable="false"/>
+                    <TableColumn fx:id="colNovedad" text="Novedad" prefWidth="170" sortable="false"/>
+                    <TableColumn fx:id="colHorasExtra" text="Horas extra" prefWidth="230" sortable="false"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </VBox>
+</ScrollPane>

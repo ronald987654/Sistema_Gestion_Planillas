@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.planillaperu.ui.RonaldmichaEmpresaController">
+
+    <HBox styleClass="card" alignment="CENTER_LEFT" spacing="12" style="-fx-background-radius: 0; -fx-border-width: 0 0 1 0;">
+        <Label fx:id="chipCompletitud" styleClass="chip" minWidth="-Infinity"/>
+        <Label fx:id="textoFaltantes" styleClass="text-muted" wrapText="true" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+        <Button text="Vista previa PDF" styleClass="btn, btn-pdf" onAction="#vistaPreviaPdf" minWidth="-Infinity"/>
+        <Button fx:id="botonGuardar" text="Guardar cambios" styleClass="btn, btn-primary" onAction="#guardar"
+                minWidth="-Infinity"/>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS">
+        <VBox styleClass="view" maxWidth="980">
+            <Label fx:id="erroresGuardado" styleClass="alert, error" wrapText="true" maxWidth="Infinity"/>
+
+            <VBox styleClass="card" spacing="14">
+                <Label text="Identificación" styleClass="title-md"/>
+                <GridPane hgap="16" vgap="12">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
+                    <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label text="RUC *" styleClass="field-label"/>
+                        <TextField fx:id="ruc" promptText="11 dígitos" styleClass="num"/>
+                        <Label fx:id="rucMensaje" styleClass="field-label"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label text="Razón social *" styleClass="field-label"/>
+                        <TextField fx:id="razonSocial"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <Label text="Nombre comercial" styleClass="field-label"/>
+                        <TextField fx:id="nombreComercial"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label text="Régimen tributario" styleClass="field-label"/>
+                        <ComboBox fx:id="regimenTributario" editable="true" maxWidth="Infinity"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                        <Label text="CIIU (actividad económica)" styleClass="field-label"/>
+                        <TextField fx:id="ciiu"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <Label text="Inicio de actividades" styleClass="field-label"/>
+                        <DatePicker fx:id="inicioActividades" promptText="dd/mm/aaaa" maxWidth="Infinity"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="2">
+                        <Label text="Rubro de la empresa (se imprime en la boleta de pago)" styleClass="field-label"/>
+                        <TextField fx:id="rubro" promptText="Ej.: comercio, servicios, manufactura"/>
+                    </VBox>
+                </GridPane>
+            </VBox>
+
+            <VBox styleClass="card" spacing="14">
+                <Label text="Domicilio fiscal" styleClass="title-md"/>
+                <GridPane hgap="16" vgap="12">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
+                    <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2">
+                        <Label text="Dirección" styleClass="field-label"/>
+                        <TextField fx:id="direccion"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <Label text="Departamento" styleClass="field-label"/>
+                        <TextField fx:id="departamento"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label text="Provincia" styleClass="field-label"/>
+                        <TextField fx:id="provincia"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                        <Label text="Distrito" styleClass="field-label"/>
+                        <TextField fx:id="distrito"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <Label text="Ubigeo" styleClass="field-label"/>
+                        <TextField fx:id="ubigeo" promptText="6 dígitos" styleClass="num"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                        <Label text="Ciudad" styleClass="field-label"/>
+                        <TextField fx:id="ciudad"/>
+                    </VBox>
+                </GridPane>
+            </VBox>
+
+            <VBox styleClass="card" spacing="14">
+                <Label text="Régimen laboral" styleClass="title-md"/>
+                <GridPane hgap="16" vgap="12">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
+                    <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label text="Régimen laboral *" styleClass="field-label"/>
+                        <ComboBox fx:id="regimenLaboral" maxWidth="Infinity"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label fx:id="etiquetaRemype" text="N° REMYPE" styleClass="field-label"/>
+                        <TextField fx:id="registroRemype"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <Label text="EPS" styleClass="field-label"/>
+                        <TextField fx:id="eps" promptText="Entidad prestadora de salud (si aplica)"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label text="Periodicidad de pago" styleClass="field-label"/>
+                        <ComboBox fx:id="periodicidad" maxWidth="Infinity"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                        <Label text="Día de pago" styleClass="field-label"/>
+                        <TextField fx:id="diaPago" promptText="1 a 31" styleClass="num"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="2" alignment="BOTTOM_LEFT">
+                        <CheckBox fx:id="sctr" text="Cuenta con SCTR"/>
+                    </VBox>
+                </GridPane>
+            </VBox>
+
+            <VBox styleClass="card" spacing="14">
+                <Label text="Representante legal" styleClass="title-md"/>
+                <GridPane hgap="16" vgap="12">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
+                    <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2">
+                        <Label text="Nombre completo" styleClass="field-label"/>
+                        <TextField fx:id="repNombre"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <Label text="Tipo de documento" styleClass="field-label"/>
+                        <ComboBox fx:id="repTipoDoc" maxWidth="Infinity"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label text="N° de documento" styleClass="field-label"/>
+                        <TextField fx:id="repDoc" styleClass="num"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                        <Label text="Cargo" styleClass="field-label"/>
+                        <TextField fx:id="repCargo"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <Label text="Partida registral" styleClass="field-label"/>
+                        <TextField fx:id="partidaRegistral"/>
+                    </VBox>
+                </GridPane>
+            </VBox>
+
+            <VBox styleClass="card" spacing="14">
+                <Label text="Contacto y boletas" styleClass="title-md"/>
+                <GridPane hgap="16" vgap="12">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
+                    <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label text="Teléfono" styleClass="field-label"/>
+                        <TextField fx:id="telefono"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label text="Correo" styleClass="field-label"/>
+                        <TextField fx:id="correo"/>
+                    </VBox>
+                    <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2">
+                        <Label text="Correo remitente de boletas" styleClass="field-label"/>
+                        <TextField fx:id="correoBoletas"/>
+                    </VBox>
+                </GridPane>
+            </VBox>
+
+            <VBox styleClass="card" spacing="14">
+                <Label text="Logo y firma" styleClass="title-md"/>
+                <Label text="PNG o JPG de hasta 2 MB. Se usan en el membrete y la firma de los PDF."
+                       styleClass="text-muted" wrapText="true"/>
+                <HBox spacing="24">
+                    <VBox spacing="8" HBox.hgrow="ALWAYS">
+                        <Label text="Logo" styleClass="field-label"/>
+                        <StackPane styleClass="table-header" prefHeight="120" maxWidth="Infinity">
+                            <ImageView fx:id="logoVista" fitHeight="100" fitWidth="260" preserveRatio="true"/>
+                            <Label fx:id="logoVacio" text="Sin logo" styleClass="text-muted"/>
+                        </StackPane>
+                        <HBox spacing="8">
+                            <Button text="Cargar logo…" styleClass="btn, btn-sm" onAction="#cargarLogo"/>
+                            <Button fx:id="quitarLogo" text="Quitar" styleClass="btn, btn-sm" onAction="#quitarLogo"/>
+                        </HBox>
+                    </VBox>
+                    <VBox spacing="8" HBox.hgrow="ALWAYS">
+                        <Label text="Firma del representante" styleClass="field-label"/>
+                        <StackPane styleClass="table-header" prefHeight="120" maxWidth="Infinity">
+                            <ImageView fx:id="firmaVista" fitHeight="100" fitWidth="260" preserveRatio="true"/>
+                            <Label fx:id="firmaVacia" text="Sin firma" styleClass="text-muted"/>
+                        </StackPane>
+                        <HBox spacing="8">
+                            <Button text="Cargar firma…" styleClass="btn, btn-sm" onAction="#cargarFirma"/>
+                            <Button fx:id="quitarFirma" text="Quitar" styleClass="btn, btn-sm" onAction="#quitarFirma"/>
+                        </HBox>
+                    </VBox>
+                </HBox>
+                <Label text="Boleta de pago" styleClass="field-label"/>
+                <CheckBox fx:id="firmaDigitalActiva" text="Firma digitalizada: imprimir la firma del representante en la boleta"/>
+                <CheckBox fx:id="huellaEnBoleta" text="Incluir recuadro de huella en la boleta"/>
+            </VBox>
+            <Region minHeight="8"/>
+        </VBox>
+    </ScrollPane>
+</VBox>

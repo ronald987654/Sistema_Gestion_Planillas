@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="scroll" fx:controller="com.planillaperu.ui.RonaldmichaInicioController" styleClass="inicio-scroll"
+            fitToWidth="true" fitToHeight="false" hbarPolicy="NEVER">
+    <VBox fx:id="raiz" styleClass="inicio"/>
+</ScrollPane>

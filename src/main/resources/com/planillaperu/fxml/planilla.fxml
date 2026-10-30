@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.planillaperu.ui.RonaldmichaPlanillaController" fitToWidth="true" hbarPolicy="NEVER">
+    <VBox styleClass="view">
+        <VBox styleClass="card" spacing="12">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button fx:id="anioAnterior" styleClass="btn, btn-ghost, btn-icon" onAction="#anioAnterior"/>
+                <Label fx:id="tituloAnio" styleClass="title-md"/>
+                <Button fx:id="anioSiguiente" styleClass="btn, btn-ghost, btn-icon" onAction="#anioSiguiente"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="infoCierre" styleClass="text-muted" wrapText="true"/>
+                <HBox fx:id="accionesCierre" spacing="8" alignment="CENTER_RIGHT" minWidth="-Infinity"/>
+            </HBox>
+            <HBox fx:id="tiraMeses" styleClass="month-strip" spacing="6"/>
+        </VBox>
+
+        <VBox fx:id="banner" spacing="6"/>
+
+        <FlowPane fx:id="kpis" hgap="12" vgap="12"/>
+
+        <VBox styleClass="card" spacing="10">
+            <FlowPane hgap="10" vgap="10" alignment="CENTER_LEFT">
+                <ComboBox fx:id="filtroSucursal" prefWidth="200"/>
+                <TextField fx:id="buscar" promptText="Buscar por nombre o documento" prefWidth="280"/>
+                <HBox styleClass="segmented" spacing="4">
+                    <ToggleButton fx:id="vistaResumen" text="Resumen" selected="true"/>
+                    <ToggleButton fx:id="vistaDetallada" text="Detallada"/>
+                </HBox>
+                <Button fx:id="botonEnviar" text="Enviar boletas" styleClass="btn, btn-correo" onAction="#enviarBoletas"/>
+                <HBox fx:id="exportaciones" spacing="8" alignment="CENTER_LEFT"/>
+            </FlowPane>
+            <Label fx:id="resumen" styleClass="text-muted"/>
+        </VBox>
+
+        <StackPane fx:id="contenedorTabla" styleClass="card, table-card" alignment="TOP_CENTER"/>
+    </VBox>
+</ScrollPane>
