@@ -8,15 +8,15 @@ import com.planillaperu.domain.RonaldmichaEstadoDocumento;
 import com.planillaperu.domain.RonaldmichaRol;
 import com.planillaperu.domain.RonaldmichaTrabajadorResumen;
 import com.planillaperu.export.doc.RonaldmichaDocumentModel;
-import com.planillaperu.service.RonaldmichaAccesoDenegadoException;
-import com.planillaperu.service.RonaldmichaReporte;
-import com.planillaperu.service.RonaldmichaReporte.Formato;
-import com.planillaperu.service.RonaldmichaReporte.Grupo;
-import com.planillaperu.service.RonaldmichaReportesService;
-import com.planillaperu.service.RonaldmichaReportesService.Archivo;
-import com.planillaperu.service.RonaldmichaReportesService.Envio;
-import com.planillaperu.service.RonaldmichaReportesService.Parametros;
-import com.planillaperu.service.RonaldmichaValidacionException;
+import com.planillaperu.service.RonaldmichaelAccesoDenegadoException;
+import com.planillaperu.service.RonaldmichaelReporte;
+import com.planillaperu.service.RonaldmichaelReporte.Formato;
+import com.planillaperu.service.RonaldmichaelReporte.Grupo;
+import com.planillaperu.service.RonaldmichaelReportesService;
+import com.planillaperu.service.RonaldmichaelReportesService.Archivo;
+import com.planillaperu.service.RonaldmichaelReportesService.Envio;
+import com.planillaperu.service.RonaldmichaelReportesService.Parametros;
+import com.planillaperu.service.RonaldmichaelValidacionException;
 import com.planillaperu.ui.components.RonaldmichaEmptyState;
 import com.planillaperu.ui.components.RonaldmichaExportButton;
 import com.planillaperu.ui.components.RonaldmichaIcono;
@@ -98,7 +98,7 @@ public class RonaldmichaReportesController {
     private final Label resumenEmitidos = new Label();
     private final ObservableList<RonaldmichaDocumentoEmitido> emitidos = FXCollections.observableArrayList();
     private final TableView<RonaldmichaDocumentoEmitido> tablaEmitidos = new TableView<>(emitidos);
-    private RonaldmichaReporte reporte;
+    private RonaldmichaelReporte reporte;
     private RonaldmichaExportButton principal;
     private int cantidadTrabajadores;
     private int solicitud;
@@ -113,7 +113,7 @@ public class RonaldmichaReportesController {
 
     @FXML
     private void initialize() {
-        List<RonaldmichaReporte> catalogo = servicio().catalogo(contexto.sesion());
+        List<RonaldmichaelReporte> catalogo = servicio().catalogo(contexto.sesion());
 
         picker.selectedProperty().addListener((o, a, b) -> refrescar());
         dosCopias.setSelected(true);
@@ -156,17 +156,17 @@ public class RonaldmichaReportesController {
         boolean boleta = contexto.seccionSolicitadaProperty().get() == RonaldmichaAppContext.Seccion.BOLETA_PAGO;
         contexto.seccionSolicitadaProperty().set(null);
         tarjetas.getToggles().stream()
-                .filter(t -> boleta ? t.getUserData() == RonaldmichaReporte.BOLETA_PAGO : t.isSelected())
+                .filter(t -> boleta ? t.getUserData() == RonaldmichaelReporte.BOLETA_PAGO : t.isSelected())
                 .findFirst().orElse(tarjetas.getToggles().getFirst())
                 .setSelected(true);
     }
 
-    private VBox catalogo(List<RonaldmichaReporte> catalogo) {
-        Map<String, List<RonaldmichaReporte>> grupos = new LinkedHashMap<>();
+    private VBox catalogo(List<RonaldmichaelReporte> catalogo) {
+        Map<String, List<RonaldmichaelReporte>> grupos = new LinkedHashMap<>();
         if (esTrabajador()) {
             grupos.put("Mis documentos", catalogo);
         } else {
-            Map<Grupo, List<RonaldmichaReporte>> porGrupo = catalogo.stream().collect(Collectors.groupingBy(RonaldmichaReporte::grupo,
+            Map<Grupo, List<RonaldmichaelReporte>> porGrupo = catalogo.stream().collect(Collectors.groupingBy(RonaldmichaelReporte::grupo,
                     () -> new EnumMap<>(Grupo.class), Collectors.toList()));
             porGrupo.forEach((g, lista) -> grupos.put(g.titulo(), lista));
         }
@@ -183,7 +183,7 @@ public class RonaldmichaReportesController {
         return caja;
     }
 
-    private ToggleButton tarjeta(RonaldmichaReporte r) {
+    private ToggleButton tarjeta(RonaldmichaelReporte r) {
         Label t = new Label(r.titulo());
         t.getStyleClass().add("tarjeta-titulo");
         Label d = new Label(r.descripcion());
@@ -244,11 +244,11 @@ public class RonaldmichaReportesController {
         return caja;
     }
 
-    private static String etiqueta(RonaldmichaReporte r, Formato f) {
+    private static String etiqueta(RonaldmichaelReporte r, Formato f) {
         return switch (f) {
             case TXT -> "TXT banco";
             case ZIP -> "Archivos PLAME (ZIP)";
-            case EXCEL -> r == RonaldmichaReporte.AFPNET ? "Excel AFPnet" : "Excel";
+            case EXCEL -> r == RonaldmichaelReporte.AFPNET ? "Excel AFPnet" : "Excel";
             default -> f.etiqueta();
         };
     }
@@ -278,7 +278,7 @@ public class RonaldmichaReportesController {
 
     private void armarOpciones() {
         opciones.getChildren().clear();
-        if (reporte == RonaldmichaReporte.BOLETA_PAGO) {
+        if (reporte == RonaldmichaelReporte.BOLETA_PAGO) {
             dosCopias.setText("Dos copias");
             opciones.getChildren().add(opcion(dosCopias,
                     "Dos páginas por trabajador: la copia del empleador y la del trabajador."));
@@ -294,7 +294,7 @@ public class RonaldmichaReportesController {
         mostrar(opciones, !opciones.getChildren().isEmpty());
     }
 
-    private void seleccionar(RonaldmichaReporte r) {
+    private void seleccionar(RonaldmichaelReporte r) {
         reporte = r;
         titulo.setText(r.titulo());
         baseLegal.setText(r.baseLegal());
@@ -317,13 +317,13 @@ public class RonaldmichaReportesController {
         refrescar();
     }
 
-    private List<RonaldmichaTrabajadorResumen> poolPara(RonaldmichaReporte r, YearMonth mes) {
+    private List<RonaldmichaTrabajadorResumen> poolPara(RonaldmichaelReporte r, YearMonth mes) {
         if (!r.porTrabajador() || esTrabajador()) {
             return List.of();
         }
         try {
             return servicio().trabajadores(contexto.sesion(), r, mes);
-        } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException e) {
             return List.of();
         }
     }
@@ -333,7 +333,7 @@ public class RonaldmichaReportesController {
             return;
         }
         int numero = ++solicitud;
-        RonaldmichaReporte r = reporte;
+        RonaldmichaelReporte r = reporte;
         Parametros p = parametros(false);
         RonaldmichaTareas.ejecutar(() -> {
             RonaldmichaEmpresa e = servicio().empresa();
@@ -347,7 +347,7 @@ public class RonaldmichaReportesController {
             if (numero != solicitud) {
                 return;
             }
-            if (error instanceof RonaldmichaValidacionException || error instanceof RonaldmichaAccesoDenegadoException) {
+            if (error instanceof RonaldmichaelValidacionException || error instanceof RonaldmichaelAccesoDenegadoException) {
                 vista.mostrarError(error.getMessage());
             } else {
                 log.error("No se pudo generar la vista previa de {}", r.titulo(), error);
@@ -380,7 +380,7 @@ public class RonaldmichaReportesController {
 
     private RonaldmichaExportButton botonExportar(String texto, Formato formato, boolean todos) {
         RonaldmichaExportButton b = new RonaldmichaExportButton(texto, RonaldmichaExportButton.Formato.valueOf(formato.name()), null);
-        RonaldmichaReporte r = reporte;
+        RonaldmichaelReporte r = reporte;
         Parametros[] p = new Parametros[1];
         Archivo[] generado = new Archivo[1];
         b.conPrevio(continuar -> {
@@ -404,12 +404,12 @@ public class RonaldmichaReportesController {
     }
 
     private void revisarObservaciones(Formato formato, Parametros p, Runnable continuar) {
-        boolean revisar = formato.validaAntes() && validar.isSelected() || reporte == RonaldmichaReporte.BOLETA_PAGO;
+        boolean revisar = formato.validaAntes() && validar.isSelected() || reporte == RonaldmichaelReporte.BOLETA_PAGO;
         if (revisar && !esTrabajador()) {
             List<String> observaciones;
             try {
                 observaciones = servicio().observaciones(contexto.sesion(), reporte, p);
-            } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException e) {
+            } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException e) {
                 RonaldmichaToast.error(raiz, e.getMessage());
                 return;
             }
@@ -460,7 +460,7 @@ public class RonaldmichaReportesController {
         Envio envio;
         try {
             envio = servicio().enviarPorCorreo(contexto.sesion(), reporte, parametros(false));
-        } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(raiz, e.getMessage());
             return;
         }
@@ -542,7 +542,7 @@ public class RonaldmichaReportesController {
         });
         List<TableColumn<RonaldmichaDocumentoEmitido, ?>> columnas = List.of(numero,
                 texto("Documento", 200, d -> {
-                    RonaldmichaReporte r = RonaldmichaReporte.desdeTipo(d.tipo());
+                    RonaldmichaelReporte r = RonaldmichaelReporte.desdeTipo(d.tipo());
                     return r == null ? d.tipo() : r.titulo();
                 }),
                 texto("Trabajador", 220, d -> d.trabajador() == null ? "Toda la empresa" : d.trabajador()),
@@ -557,7 +557,7 @@ public class RonaldmichaReportesController {
     private void cargarEmitidos() {
         try {
             emitidos.setAll(servicio().emitidos(contexto.sesion()));
-        } catch (RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelAccesoDenegadoException e) {
             emitidos.clear();
         }
         long pendientes = emitidos.stream().filter(RonaldmichaDocumentoEmitido::cargoPendiente).count();
@@ -570,12 +570,12 @@ public class RonaldmichaReportesController {
             servicio().marcarCargoRecibido(contexto.sesion(), d);
             cargarEmitidos();
             RonaldmichaToast.exito(raiz, "Cargo de " + d.numero() + " recibido.");
-        } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(raiz, e.getMessage());
         }
     }
 
-    private RonaldmichaReportesService servicio() {
+    private RonaldmichaelReportesService servicio() {
         return contexto.reportes();
     }
 

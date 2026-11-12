@@ -1,8 +1,8 @@
 package com.planillaperu.ui.components;
 
-import com.planillaperu.calc.RonaldmichaResultadoPlanilla;
-import com.planillaperu.calc.RonaldmichaResultadoPlanilla.Concepto;
-import com.planillaperu.calc.RonaldmichaResultadoPlanilla.TipoConcepto;
+import com.planillaperu.calc.RonaldmichaelResultadoPlanilla;
+import com.planillaperu.calc.RonaldmichaelResultadoPlanilla.Concepto;
+import com.planillaperu.calc.RonaldmichaelResultadoPlanilla.TipoConcepto;
 import com.planillaperu.common.RonaldmichaFormatos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -36,7 +36,7 @@ public class RonaldmichaConceptosPlanilla extends VBox {
         getChildren().addAll(columnas, cajaNeto);
     }
 
-    public void mostrar(RonaldmichaResultadoPlanilla r) {
+    public void mostrar(RonaldmichaelResultadoPlanilla r) {
         llenar(ingresos, "Ingresos", r.conceptos().stream()
                 .filter(c -> c.tipo() == TipoConcepto.INGRESO || c.tipo() == TipoConcepto.REBAJA).toList(),
                 r.totalIngresos(), "Total ingresos");
@@ -49,7 +49,7 @@ public class RonaldmichaConceptosPlanilla extends VBox {
         return neto.getText();
     }
 
-    private static List<Concepto> delTipo(RonaldmichaResultadoPlanilla r, TipoConcepto tipo) {
+    private static List<Concepto> delTipo(RonaldmichaelResultadoPlanilla r, TipoConcepto tipo) {
         return r.conceptos().stream().filter(c -> c.tipo() == tipo).toList();
     }
 

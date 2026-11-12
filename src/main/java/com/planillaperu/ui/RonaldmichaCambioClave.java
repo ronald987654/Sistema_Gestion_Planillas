@@ -1,9 +1,9 @@
 package com.planillaperu.ui;
 
 import com.planillaperu.RonaldmichaAppContext;
-import com.planillaperu.service.RonaldmichaAccesoDenegadoException;
-import com.planillaperu.service.RonaldmichaUsuarioService;
-import com.planillaperu.service.RonaldmichaValidacionException;
+import com.planillaperu.service.RonaldmichaelAccesoDenegadoException;
+import com.planillaperu.service.RonaldmichaelUsuarioService;
+import com.planillaperu.service.RonaldmichaelValidacionException;
 import com.planillaperu.ui.components.RonaldmichaModal;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -40,7 +40,7 @@ final class RonaldmichaCambioClave {
         } else {
             contenido.getChildren().addAll(etiqueta("Contraseña actual"), actual);
         }
-        Label reglas = new Label("Al menos " + RonaldmichaUsuarioService.CLAVE_MINIMA + " caracteres, con letras y números.");
+        Label reglas = new Label("Al menos " + RonaldmichaelUsuarioService.CLAVE_MINIMA + " caracteres, con letras y números.");
         reglas.getStyleClass().add("text-muted");
         contenido.getChildren().addAll(etiqueta("Nueva contraseña"), nueva, etiqueta("Confirmar contraseña"), confirmar,
                 reglas, errores);
@@ -56,8 +56,8 @@ final class RonaldmichaCambioClave {
                         nueva.getText(), confirmar.getText());
                 guardado[0] = true;
                 modal.cerrar();
-            } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException ex) {
-                errores.setText(ex instanceof RonaldmichaValidacionException v
+            } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException ex) {
+                errores.setText(ex instanceof RonaldmichaelValidacionException v
                         ? v.errores().stream().map(m -> "• " + m).collect(Collectors.joining("\n")) : ex.getMessage());
                 errores.setVisible(true);
                 errores.setManaged(true);

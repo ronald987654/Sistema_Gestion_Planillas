@@ -1,6 +1,6 @@
 package com.planillaperu.export;
 
-import com.planillaperu.calc.RonaldmichaAsistenciaCalculator.Dia;
+import com.planillaperu.calc.RonaldmichaelAsistenciaCalculator.Dia;
 import com.planillaperu.common.RonaldmichaHoras;
 import com.planillaperu.domain.RonaldmichaFeriado;
 import com.planillaperu.domain.RonaldmichaMarcacion;

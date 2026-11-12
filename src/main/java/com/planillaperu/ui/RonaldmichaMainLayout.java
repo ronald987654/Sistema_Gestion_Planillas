@@ -7,9 +7,9 @@ import com.planillaperu.domain.RonaldmichaPermiso;
 import com.planillaperu.domain.RonaldmichaRol;
 import com.planillaperu.domain.RonaldmichaSituacionPeriodo;
 import com.planillaperu.domain.RonaldmichaUsuario;
-import com.planillaperu.service.RonaldmichaAccesoDenegadoException;
-import com.planillaperu.service.RonaldmichaAprobacionService;
-import com.planillaperu.service.RonaldmichaValidacionException;
+import com.planillaperu.service.RonaldmichaelAccesoDenegadoException;
+import com.planillaperu.service.RonaldmichaelAprobacionService;
+import com.planillaperu.service.RonaldmichaelValidacionException;
 import com.planillaperu.ui.components.RonaldmichaChip;
 import com.planillaperu.ui.components.RonaldmichaConfirmButton;
 import com.planillaperu.ui.components.RonaldmichaEmptyState;
@@ -153,7 +153,7 @@ public class RonaldmichaMainLayout {
                     vistasGuardadas.put(vista, nodo);
                 }
             }
-        } catch (RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelAccesoDenegadoException e) {
             nodo = RonaldmichaPagina.envolver(sinPermiso(e.getMessage()));
         }
         contenido.getChildren().setAll(nodo);
@@ -328,7 +328,7 @@ public class RonaldmichaMainLayout {
         VBox contenido = new VBox(12, detalle, origen);
         RonaldmichaModal modal = new RonaldmichaModal(a.tipo() + " · solicitud #" + a.id(), contenido).ancho(560);
 
-        boolean vacaciones = RonaldmichaAprobacionService.esVacaciones(a.tipo());
+        boolean vacaciones = RonaldmichaelAprobacionService.esVacaciones(a.tipo());
         if (!contexto.aprobaciones().puedeResolver(a, contexto.sesion())) {
             Label aviso = new Label(vacaciones ? "Esta solicitud debe resolverla otro usuario (administrador o aprobador)."
                     : "Este cambio debe aprobarlo otro usuario con rol APROBADOR.");
@@ -367,7 +367,7 @@ public class RonaldmichaMainLayout {
                 mostrar(vistaActual);
             }
             RonaldmichaToast.exito(raiz, exito);
-        } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException ex) {
+        } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException ex) {
             RonaldmichaToast.error(raiz, ex.getMessage());
         }
     }
@@ -542,7 +542,7 @@ public class RonaldmichaMainLayout {
         try {
             contexto.respaldo().respaldar(contexto.sesion(), destino.toPath());
             RonaldmichaToast.exito(raiz, "Copia de seguridad guardada: " + destino.getName());
-        } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException ex) {
+        } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException ex) {
             RonaldmichaToast.error(raiz, ex.getMessage());
         }
     }
@@ -576,7 +576,7 @@ public class RonaldmichaMainLayout {
             RonaldmichaVentanas.mostrarLogin(stage, contexto);
             RonaldmichaToast.exito(stage.getScene().getRoot(), "Base restaurada desde " + origen.getName()
                     + ". La anterior quedó en " + previo.getFileName() + ". Inicie sesión.");
-        } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException ex) {
+        } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException ex) {
             RonaldmichaToast.error(raiz, ex.getMessage());
         }
     }

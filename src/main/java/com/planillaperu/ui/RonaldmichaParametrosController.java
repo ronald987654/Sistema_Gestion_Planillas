@@ -1,13 +1,13 @@
 package com.planillaperu.ui;
 
 import com.planillaperu.RonaldmichaAppContext;
-import com.planillaperu.calc.RonaldmichaImpactoParametrosCalculator.Impacto;
+import com.planillaperu.calc.RonaldmichaelImpactoParametrosCalculator.Impacto;
 import com.planillaperu.common.RonaldmichaFormatos;
 import com.planillaperu.domain.RonaldmichaAfpComision;
 import com.planillaperu.domain.RonaldmichaParametrosVersion;
 import com.planillaperu.domain.RonaldmichaTrabajadorRemuneracion;
-import com.planillaperu.service.RonaldmichaAccesoDenegadoException;
-import com.planillaperu.service.RonaldmichaValidacionException;
+import com.planillaperu.service.RonaldmichaelAccesoDenegadoException;
+import com.planillaperu.service.RonaldmichaelValidacionException;
 import com.planillaperu.ui.components.RonaldmichaConfirmButton;
 import com.planillaperu.ui.components.RonaldmichaEmptyState;
 import com.planillaperu.ui.components.RonaldmichaIcono;
@@ -190,7 +190,7 @@ public class RonaldmichaParametrosController {
                 modal.cerrar();
                 recargar(nueva.id());
                 RonaldmichaToast.exito(tabla, "Versión vigente desde " + MES.format(nueva.vigenteDesde()) + " registrada.");
-            } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException ex) {
+            } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException ex) {
                 RonaldmichaToast.error(tabla, ex.getMessage());
             }
         });
@@ -257,7 +257,7 @@ public class RonaldmichaParametrosController {
                 modal.cerrar();
                 recargar(v.id());
                 RonaldmichaToast.exito(tabla, "Versión desde " + MES.format(v.vigenteDesde()) + " anulada.");
-            } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException ex) {
+            } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException ex) {
                 RonaldmichaToast.error(tabla, ex.getMessage());
             }
         });

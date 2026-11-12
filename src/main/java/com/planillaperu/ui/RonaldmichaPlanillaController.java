@@ -1,23 +1,23 @@
 package com.planillaperu.ui;
 
 import com.planillaperu.RonaldmichaAppContext;
-import com.planillaperu.calc.RonaldmichaResultadoPlanilla;
-import com.planillaperu.calc.RonaldmichaResultadoPlanilla.Concepto;
-import com.planillaperu.calc.RonaldmichaResultadoPlanilla.TipoConcepto;
+import com.planillaperu.calc.RonaldmichaelResultadoPlanilla;
+import com.planillaperu.calc.RonaldmichaelResultadoPlanilla.Concepto;
+import com.planillaperu.calc.RonaldmichaelResultadoPlanilla.TipoConcepto;
 import com.planillaperu.common.RonaldmichaBusqueda;
 import com.planillaperu.common.RonaldmichaFormatos;
 import com.planillaperu.domain.RonaldmichaPeriodo;
 import com.planillaperu.domain.RonaldmichaRol;
 import com.planillaperu.domain.RonaldmichaSituacionPeriodo;
 import com.planillaperu.domain.RonaldmichaTrabajador;
-import com.planillaperu.service.RonaldmichaAccesoDenegadoException;
-import com.planillaperu.service.RonaldmichaReporte;
-import com.planillaperu.service.RonaldmichaReporte.Formato;
-import com.planillaperu.service.RonaldmichaReportesService;
-import com.planillaperu.service.RonaldmichaPlanillaService.FilaPlanilla;
-import com.planillaperu.service.RonaldmichaPlanillaService.PlanillaMes;
-import com.planillaperu.service.RonaldmichaPlanillaService.Totales;
-import com.planillaperu.service.RonaldmichaValidacionException;
+import com.planillaperu.service.RonaldmichaelAccesoDenegadoException;
+import com.planillaperu.service.RonaldmichaelReporte;
+import com.planillaperu.service.RonaldmichaelReporte.Formato;
+import com.planillaperu.service.RonaldmichaelReportesService;
+import com.planillaperu.service.RonaldmichaelPlanillaService.FilaPlanilla;
+import com.planillaperu.service.RonaldmichaelPlanillaService.PlanillaMes;
+import com.planillaperu.service.RonaldmichaelPlanillaService.Totales;
+import com.planillaperu.service.RonaldmichaelValidacionException;
 import com.planillaperu.ui.components.RonaldmichaExportButton;
 import com.planillaperu.ui.components.RonaldmichaConceptosPlanilla;
 import com.planillaperu.ui.components.RonaldmichaConfirmButton;
@@ -167,7 +167,7 @@ public class RonaldmichaPlanillaController {
         anioTira = mes.getYear();
         try {
             planilla = contexto.planilla().consultar(contexto.sesion(), mes);
-        } catch (RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(contenedorTabla, e.getMessage());
             return;
         }
@@ -369,13 +369,13 @@ public class RonaldmichaPlanillaController {
         TableColumn<Fila, String> dias = texto("Días", 70, f -> f.esTotal() ? ""
                 : f.fila().resultado().diasLaborados() + " / " + f.fila().resultado().diasMes());
         dias.getStyleClass().add("num");
-        TableColumn<Fila, BigDecimal> ingresos = monto("Ingresos", 120, RonaldmichaResultadoPlanilla::totalIngresos,
+        TableColumn<Fila, BigDecimal> ingresos = monto("Ingresos", 120, RonaldmichaelResultadoPlanilla::totalIngresos,
                 Totales::ingresos, null);
-        TableColumn<Fila, BigDecimal> descuentos = monto("Descuentos", 120, RonaldmichaResultadoPlanilla::totalDescuentos,
+        TableColumn<Fila, BigDecimal> descuentos = monto("Descuentos", 120, RonaldmichaelResultadoPlanilla::totalDescuentos,
                 Totales::descuentos, "monto-descuento");
-        TableColumn<Fila, BigDecimal> aportes = monto("Aportes", 120, RonaldmichaResultadoPlanilla::totalAportes,
+        TableColumn<Fila, BigDecimal> aportes = monto("Aportes", 120, RonaldmichaelResultadoPlanilla::totalAportes,
                 Totales::aportes, null);
-        TableColumn<Fila, BigDecimal> neto = monto("Neto", 130, RonaldmichaResultadoPlanilla::netoAPagar, Totales::neto,
+        TableColumn<Fila, BigDecimal> neto = monto("Neto", 130, RonaldmichaelResultadoPlanilla::netoAPagar, Totales::neto,
                 "monto-neto");
 
         TableColumn<Fila, Fila> acciones = new TableColumn<>("Acciones");
@@ -438,11 +438,11 @@ public class RonaldmichaPlanillaController {
             col.getStyleClass().add("col-" + ejemplo.tipo().name().toLowerCase());
             columnas.add(col);
         });
-        columnas.add(monto("Total ingresos", 130, RonaldmichaResultadoPlanilla::totalIngresos, Totales::ingresos, null));
-        columnas.add(monto("Total descuentos", 130, RonaldmichaResultadoPlanilla::totalDescuentos, Totales::descuentos,
+        columnas.add(monto("Total ingresos", 130, RonaldmichaelResultadoPlanilla::totalIngresos, Totales::ingresos, null));
+        columnas.add(monto("Total descuentos", 130, RonaldmichaelResultadoPlanilla::totalDescuentos, Totales::descuentos,
                 "monto-descuento"));
-        columnas.add(monto("Neto a pagar", 130, RonaldmichaResultadoPlanilla::netoAPagar, Totales::neto, "monto-neto"));
-        columnas.add(monto("Total aportes", 130, RonaldmichaResultadoPlanilla::totalAportes, Totales::aportes, null));
+        columnas.add(monto("Neto a pagar", 130, RonaldmichaelResultadoPlanilla::netoAPagar, Totales::neto, "monto-neto"));
+        columnas.add(monto("Total aportes", 130, RonaldmichaelResultadoPlanilla::totalAportes, Totales::aportes, null));
         columnas.forEach(c -> c.setSortable(false));
         tablaDetallada.getColumns().setAll(columnas);
     }
@@ -452,7 +452,7 @@ public class RonaldmichaPlanillaController {
                 .filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private static BigDecimal importe(RonaldmichaResultadoPlanilla r, String clave) {
+    private static BigDecimal importe(RonaldmichaelResultadoPlanilla r, String clave) {
         return r.conceptos().stream().filter(c -> clave(c).equals(clave))
                 .map(c -> c.tipo() == TipoConcepto.REBAJA ? c.monto().negate() : c.monto())
                 .reduce(BigDecimal::add).orElse(null);
@@ -470,7 +470,7 @@ public class RonaldmichaPlanillaController {
     }
 
     private static TableColumn<Fila, BigDecimal> monto(String titulo, double ancho,
-                                                       Function<RonaldmichaResultadoPlanilla, BigDecimal> deFila,
+                                                       Function<RonaldmichaelResultadoPlanilla, BigDecimal> deFila,
                                                        Function<Totales, BigDecimal> deTotal, String estilo) {
         TableColumn<Fila, BigDecimal> col = new TableColumn<>(titulo);
         col.setPrefWidth(ancho);
@@ -495,7 +495,7 @@ public class RonaldmichaPlanillaController {
 
     private void verBoleta(FilaPlanilla f) {
         RonaldmichaTrabajador t = f.trabajador();
-        RonaldmichaResultadoPlanilla r = f.resultado();
+        RonaldmichaelResultadoPlanilla r = f.resultado();
         Label nombre = new Label(t.nombreCompleto());
         nombre.getStyleClass().add("title-md");
         Label datos = new Label(t.tipoDoc().codigo() + " " + t.numDoc() + " · " + (t.cargo() == null ? "" : t.cargo())
@@ -535,8 +535,8 @@ public class RonaldmichaPlanillaController {
     private RonaldmichaExportButton exportacion(String texto, Formato formato) {
         YearMonth[] mes = new YearMonth[1];
         RonaldmichaExportButton b = new RonaldmichaExportButton(texto, RonaldmichaExportButton.Formato.valueOf(formato.name()), () -> {
-            RonaldmichaReportesService.Archivo a = contexto.reportes().exportar(contexto.sesion(), RonaldmichaReporte.PLANILLA, formato,
-                    new RonaldmichaReportesService.Parametros(mes[0], null, false));
+            RonaldmichaelReportesService.Archivo a = contexto.reportes().exportar(contexto.sesion(), RonaldmichaelReporte.PLANILLA, formato,
+                    new RonaldmichaelReportesService.Parametros(mes[0], null, false));
             return new RonaldmichaExportButton.Archivo(a.nombre(), a.contenido());
         });
         b.conPrevio(continuar -> {
@@ -554,7 +554,7 @@ public class RonaldmichaPlanillaController {
             cargar();
             RonaldmichaToast.exito(contenedorTabla, "Planilla de " + mesLargo(mes) + " cerrada. Se abrió "
                     + mesLargo(mes.plusMonths(1)) + ".");
-        } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(contenedorTabla, e.getMessage());
         }
     }
@@ -579,7 +579,7 @@ public class RonaldmichaPlanillaController {
                 modal.cerrar();
                 cargar();
                 RonaldmichaToast.exito(contenedorTabla, "Planilla de " + mesLargo(mes) + " reabierta.");
-            } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException ex) {
+            } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException ex) {
                 RonaldmichaToast.error(contenedorTabla, ex.getMessage());
             }
         });

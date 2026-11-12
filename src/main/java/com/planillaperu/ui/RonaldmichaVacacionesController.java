@@ -1,21 +1,21 @@
 package com.planillaperu.ui;
 
 import com.planillaperu.RonaldmichaAppContext;
-import com.planillaperu.calc.RonaldmichaVacacionesCalculator;
-import com.planillaperu.calc.RonaldmichaVacacionesCalculator.Resumen;
+import com.planillaperu.calc.RonaldmichaelVacacionesCalculator;
+import com.planillaperu.calc.RonaldmichaelVacacionesCalculator.Resumen;
 import com.planillaperu.common.RonaldmichaFormatos;
 import com.planillaperu.domain.RonaldmichaEstadoVacacion;
 import com.planillaperu.domain.RonaldmichaRol;
 import com.planillaperu.domain.RonaldmichaTipoVacacion;
 import com.planillaperu.domain.RonaldmichaTrabajador;
 import com.planillaperu.domain.RonaldmichaVacacion;
-import com.planillaperu.service.RonaldmichaAccesoDenegadoException;
-import com.planillaperu.service.RonaldmichaValidacionException;
-import com.planillaperu.service.RonaldmichaVacacionesService;
-import com.planillaperu.service.RonaldmichaVacacionesService.Detalle;
-import com.planillaperu.service.RonaldmichaVacacionesService.FilaVacaciones;
-import com.planillaperu.service.RonaldmichaVacacionesService.Registro;
-import com.planillaperu.service.RonaldmichaVacacionesService.Solicitud;
+import com.planillaperu.service.RonaldmichaelAccesoDenegadoException;
+import com.planillaperu.service.RonaldmichaelValidacionException;
+import com.planillaperu.service.RonaldmichaelVacacionesService;
+import com.planillaperu.service.RonaldmichaelVacacionesService.Detalle;
+import com.planillaperu.service.RonaldmichaelVacacionesService.FilaVacaciones;
+import com.planillaperu.service.RonaldmichaelVacacionesService.Registro;
+import com.planillaperu.service.RonaldmichaelVacacionesService.Solicitud;
 import com.planillaperu.ui.components.RonaldmichaChip;
 import com.planillaperu.ui.components.RonaldmichaConfirmButton;
 import com.planillaperu.ui.components.RonaldmichaEmptyState;
@@ -205,7 +205,7 @@ public class RonaldmichaVacacionesController {
         List<FilaVacaciones> lista;
         try {
             lista = contexto.vacaciones().listar(contexto.sesion());
-        } catch (RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(raiz, e.getMessage());
             return;
         }
@@ -247,7 +247,7 @@ public class RonaldmichaVacacionesController {
         Detalle d;
         try {
             d = contexto.vacaciones().detalle(contexto.sesion(), trabajadorAbierto);
-        } catch (RonaldmichaAccesoDenegadoException | RonaldmichaValidacionException e) {
+        } catch (RonaldmichaelAccesoDenegadoException | RonaldmichaelValidacionException e) {
             panel.getChildren().setAll(alerta(e.getMessage(), "error"));
             return;
         }
@@ -257,7 +257,7 @@ public class RonaldmichaVacacionesController {
         Label nombre = new Label(esTrabajador() ? "Mi récord vacacional" : t.nombreCompleto());
         nombre.getStyleClass().add("title-md");
         Label datos = new Label((esTrabajador() ? t.nombreCompleto() + " · " : "") + t.regimen().descripcion()
-                + " · ingreso " + RonaldmichaFormatos.fecha(t.fechaIngreso()) + " · " + RonaldmichaVacacionesService.tiempo(r) + " de servicio");
+                + " · ingreso " + RonaldmichaFormatos.fecha(t.fechaIngreso()) + " · " + RonaldmichaelVacacionesService.tiempo(r) + " de servicio");
         datos.getStyleClass().add("text-muted");
         datos.setWrapText(true);
         VBox textos = new VBox(2, nombre, datos);
@@ -375,7 +375,7 @@ public class RonaldmichaVacacionesController {
     private void planificarEdicion(Registro g) {
         try {
             planificar(contexto.vacaciones().detalle(contexto.sesion(), g.vacacion().trabajadorId()), g);
-        } catch (RonaldmichaAccesoDenegadoException | RonaldmichaValidacionException e) {
+        } catch (RonaldmichaelAccesoDenegadoException | RonaldmichaelValidacionException e) {
             RonaldmichaToast.error(raiz, e.getMessage());
         }
     }
@@ -410,7 +410,7 @@ public class RonaldmichaVacacionesController {
         Label dias = new Label("0 días");
         dias.getStyleClass().addAll("num", "dias-calculados");
         Runnable recalcular = () -> {
-            int n = RonaldmichaVacacionesCalculator.diasCalendario(desde.getValue(), hasta.getValue());
+            int n = RonaldmichaelVacacionesCalculator.diasCalendario(desde.getValue(), hasta.getValue());
             dias.setText(n + (n == 1 ? " día" : " días"));
         };
         desde.valueProperty().addListener((o, a, b) -> {
@@ -464,7 +464,7 @@ public class RonaldmichaVacacionesController {
                 "btn-primary", () -> {
                     Solicitud s = new Solicitud(grupo.getSelectedToggle() == venta ? RonaldmichaTipoVacacion.VENTA : RonaldmichaTipoVacacion.GOCE,
                             desde.getValue(), hasta.getValue(), observacion.getText(), acuerdo.isSelected());
-                    RonaldmichaVacacionesService servicio = contexto.vacaciones();
+                    RonaldmichaelVacacionesService servicio = contexto.vacaciones();
                     List<String> lista = servicio.validar(contexto.sesion(), trabajadorId,
                             original == null ? null : original.id(), s);
                     if (!lista.isEmpty()) {
@@ -477,7 +477,7 @@ public class RonaldmichaVacacionesController {
                             RonaldmichaVacacion v = servicio.registrar(contexto.sesion(), trabajadorId, s);
                             mensaje = v.estado() == RonaldmichaEstadoVacacion.PENDIENTE
                                     ? "Solicitud enviada: queda pendiente de aprobación."
-                                    : RonaldmichaVacacionesService.descripcion(v) + " registrado.";
+                                    : RonaldmichaelVacacionesService.descripcion(v) + " registrado.";
                         } else {
                             servicio.editar(contexto.sesion(), original.id(), s);
                             mensaje = "Registro actualizado.";
@@ -485,7 +485,7 @@ public class RonaldmichaVacacionesController {
                         modal.cerrar();
                         recargar();
                         RonaldmichaToast.exito(raiz, mensaje);
-                    } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException e) {
+                    } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException e) {
                         mostrarErrores(errores, List.of(e.getMessage()));
                     }
                 });
@@ -521,7 +521,7 @@ public class RonaldmichaVacacionesController {
             accion.run();
             recargar();
             RonaldmichaToast.exito(raiz, exito);
-        } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(raiz, e.getMessage());
         }
     }

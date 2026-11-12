@@ -1,25 +1,25 @@
 package com.planillaperu.ui;
 
 import com.planillaperu.RonaldmichaAppContext;
-import com.planillaperu.calc.RonaldmichaObligacionesCalculator.Obligacion;
+import com.planillaperu.calc.RonaldmichaelObligacionesCalculator.Obligacion;
 import com.planillaperu.common.RonaldmichaFormatos;
 import com.planillaperu.domain.RonaldmichaRegistroAuditoria;
 import com.planillaperu.domain.RonaldmichaTrabajador;
 import com.planillaperu.domain.RonaldmichaUsuario;
-import com.planillaperu.service.RonaldmichaAccesoDenegadoException;
-import com.planillaperu.service.RonaldmichaInicioService.Alerta;
-import com.planillaperu.service.RonaldmichaInicioService.Destino;
-import com.planillaperu.service.RonaldmichaInicioService.GrupoPension;
-import com.planillaperu.service.RonaldmichaInicioService.Kpi;
-import com.planillaperu.service.RonaldmichaInicioService.Nivel;
-import com.planillaperu.service.RonaldmichaInicioService.Paso;
-import com.planillaperu.service.RonaldmichaInicioService.PuntoMes;
-import com.planillaperu.service.RonaldmichaInicioService.Resumen;
-import com.planillaperu.service.RonaldmichaReporte;
-import com.planillaperu.service.RonaldmichaReporte.Formato;
-import com.planillaperu.service.RonaldmichaReportesService.Archivo;
-import com.planillaperu.service.RonaldmichaReportesService.Parametros;
-import com.planillaperu.service.RonaldmichaValidacionException;
+import com.planillaperu.service.RonaldmichaelAccesoDenegadoException;
+import com.planillaperu.service.RonaldmichaelInicioService.Alerta;
+import com.planillaperu.service.RonaldmichaelInicioService.Destino;
+import com.planillaperu.service.RonaldmichaelInicioService.GrupoPension;
+import com.planillaperu.service.RonaldmichaelInicioService.Kpi;
+import com.planillaperu.service.RonaldmichaelInicioService.Nivel;
+import com.planillaperu.service.RonaldmichaelInicioService.Paso;
+import com.planillaperu.service.RonaldmichaelInicioService.PuntoMes;
+import com.planillaperu.service.RonaldmichaelInicioService.Resumen;
+import com.planillaperu.service.RonaldmichaelReporte;
+import com.planillaperu.service.RonaldmichaelReporte.Formato;
+import com.planillaperu.service.RonaldmichaelReportesService.Archivo;
+import com.planillaperu.service.RonaldmichaelReportesService.Parametros;
+import com.planillaperu.service.RonaldmichaelValidacionException;
 import com.planillaperu.ui.components.RonaldmichaIcono;
 import com.planillaperu.ui.components.RonaldmichaToast;
 import javafx.animation.FadeTransition;
@@ -114,7 +114,7 @@ public class RonaldmichaInicioController {
 
     @FXML
     private void initialize() {
-        RonaldmichaAtajos.registrarExportar(() -> descargar(RonaldmichaReporte.PLANILLA, Formato.EXCEL,
+        RonaldmichaAtajos.registrarExportar(() -> descargar(RonaldmichaelReporte.PLANILLA, Formato.EXCEL,
                 new Parametros(contexto.periodoProperty().get(), null, false), null));
         raiz.setMinWidth(0);
         scroll.viewportBoundsProperty().addListener((o, a, b) -> {
@@ -133,7 +133,7 @@ public class RonaldmichaInicioController {
         Resumen r;
         try {
             r = contexto.inicio().resumen(contexto.sesion(), mes);
-        } catch (RonaldmichaAccesoDenegadoException | RonaldmichaValidacionException e) {
+        } catch (RonaldmichaelAccesoDenegadoException | RonaldmichaelValidacionException e) {
             raiz.getChildren().setAll(new Label(e.getMessage()));
             return;
         }
@@ -362,9 +362,9 @@ public class RonaldmichaInicioController {
                 }),
                 new Accion(RonaldmichaIcono.RELOJ, "Asistencia", null, icono -> RonaldmichaNavegacion.ir(RonaldmichaVista.ASISTENCIA)),
                 new Accion(RonaldmichaIcono.CALENDARIO, "Planilla del mes", null, icono -> RonaldmichaNavegacion.ir(RonaldmichaVista.PLANILLA_MENSUAL)),
-                new Accion(RonaldmichaIcono.DOCUMENTO, "Boletas del mes", "PDF", icono -> descargar(RonaldmichaReporte.BOLETA_PAGO,
+                new Accion(RonaldmichaIcono.DOCUMENTO, "Boletas del mes", "PDF", icono -> descargar(RonaldmichaelReporte.BOLETA_PAGO,
                         Formato.PDF, new Parametros(mes, null, true), icono)),
-                new Accion(RonaldmichaIcono.PLANILLA, "Planilla en Excel", "XLSX", icono -> descargar(RonaldmichaReporte.PLANILLA,
+                new Accion(RonaldmichaIcono.PLANILLA, "Planilla en Excel", "XLSX", icono -> descargar(RonaldmichaelReporte.PLANILLA,
                         Formato.EXCEL, new Parametros(mes, null, false), icono)),
                 new Accion(RonaldmichaIcono.REGALO, "Gratificación", null, icono -> RonaldmichaNavegacion.ir(RonaldmichaVista.GRATIFICACIONES)),
                 new Accion(RonaldmichaIcono.BANCO, "CTS", null, icono -> RonaldmichaNavegacion.ir(RonaldmichaVista.CTS)),
@@ -414,7 +414,7 @@ public class RonaldmichaInicioController {
         return boton;
     }
 
-    private void descargar(RonaldmichaReporte reporte, Formato formato, Parametros p, StackPane icono) {
+    private void descargar(RonaldmichaelReporte reporte, Formato formato, Parametros p, StackPane icono) {
         Node boton = icono == null ? null : icono.getParent();
         if (boton != null && boton.isDisabled()) {
             return;
@@ -437,7 +437,7 @@ public class RonaldmichaInicioController {
             RonaldmichaToast.archivo(raiz, destino);
         }, error -> {
             restaurar(icono, boton, antes);
-            RonaldmichaToast.error(raiz, error instanceof RonaldmichaValidacionException || error instanceof RonaldmichaAccesoDenegadoException
+            RonaldmichaToast.error(raiz, error instanceof RonaldmichaelValidacionException || error instanceof RonaldmichaelAccesoDenegadoException
                     ? error.getMessage() : "No se pudo generar el archivo: " + RonaldmichaTareas.mensaje(error));
         });
     }

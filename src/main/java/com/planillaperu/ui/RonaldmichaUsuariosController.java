@@ -7,14 +7,14 @@ import com.planillaperu.domain.RonaldmichaCuentaUsuario;
 import com.planillaperu.domain.RonaldmichaPermiso;
 import com.planillaperu.domain.RonaldmichaRegistroAuditoria;
 import com.planillaperu.domain.RonaldmichaRol;
-import com.planillaperu.service.RonaldmichaAccesoDenegadoException;
-import com.planillaperu.service.RonaldmichaAuditoriaService;
-import com.planillaperu.service.RonaldmichaAuditoriaService.Filtro;
-import com.planillaperu.service.RonaldmichaSeguridadService;
-import com.planillaperu.service.RonaldmichaSeguridadService.Regla;
-import com.planillaperu.service.RonaldmichaUsuarioService.ClaveTemporal;
-import com.planillaperu.service.RonaldmichaUsuarioService.NuevoUsuario;
-import com.planillaperu.service.RonaldmichaValidacionException;
+import com.planillaperu.service.RonaldmichaelAccesoDenegadoException;
+import com.planillaperu.service.RonaldmichaelAuditoriaService;
+import com.planillaperu.service.RonaldmichaelAuditoriaService.Filtro;
+import com.planillaperu.service.RonaldmichaelSeguridadService;
+import com.planillaperu.service.RonaldmichaelSeguridadService.Regla;
+import com.planillaperu.service.RonaldmichaelUsuarioService.ClaveTemporal;
+import com.planillaperu.service.RonaldmichaelUsuarioService.NuevoUsuario;
+import com.planillaperu.service.RonaldmichaelValidacionException;
 import com.planillaperu.ui.components.RonaldmichaChip;
 import com.planillaperu.ui.components.RonaldmichaConfirmButton;
 import com.planillaperu.ui.components.RonaldmichaEmptyState;
@@ -197,7 +197,7 @@ public class RonaldmichaUsuariosController {
             cargarUsuarios();
             buscarAuditoria();
             RonaldmichaToast.exito(raiz, exito);
-        } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(raiz, e.getMessage());
         }
     }
@@ -208,7 +208,7 @@ public class RonaldmichaUsuariosController {
             cargarUsuarios();
             buscarAuditoria();
             mostrarClave("Contraseña restablecida", temporal);
-        } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(raiz, e.getMessage());
         }
     }
@@ -266,10 +266,10 @@ public class RonaldmichaUsuariosController {
                 cargarFiltros();
                 buscarAuditoria();
                 mostrarClave("Usuario creado", temporal);
-            } catch (RonaldmichaValidacionException ex) {
+            } catch (RonaldmichaelValidacionException ex) {
                 error.setText(ex.errores().stream().map(m -> "• " + m).collect(Collectors.joining("\n")));
                 mostrar(error, true);
-            } catch (RonaldmichaAccesoDenegadoException ex) {
+            } catch (RonaldmichaelAccesoDenegadoException ex) {
                 RonaldmichaToast.error(raiz, ex.getMessage());
             }
         });
@@ -302,7 +302,7 @@ public class RonaldmichaUsuariosController {
     private void cargarUsuarios() {
         try {
             cuentas.setAll(contexto.usuarios().listar(contexto.sesion()));
-        } catch (RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelAccesoDenegadoException e) {
             cuentas.clear();
         }
     }
@@ -371,7 +371,7 @@ public class RonaldmichaUsuariosController {
         }
         VBox seccion = tarjeta(titulo("Reglas activas"), lista);
         if (esAdmin()) {
-            Spinner<Integer> minutos = new Spinner<>(RonaldmichaSeguridadService.INACTIVIDAD_MINIMA, RonaldmichaSeguridadService.INACTIVIDAD_MAXIMA,
+            Spinner<Integer> minutos = new Spinner<>(RonaldmichaelSeguridadService.INACTIVIDAD_MINIMA, RonaldmichaelSeguridadService.INACTIVIDAD_MAXIMA,
                     contexto.seguridad().minutosInactividad(), 5);
             minutos.setEditable(true);
             minutos.setPrefWidth(110);
@@ -382,7 +382,7 @@ public class RonaldmichaUsuariosController {
                     buscarAuditoria();
                     RonaldmichaToast.exito(raiz, "Cierre por inactividad: " + minutos.getValue()
                             + " minutos (se aplica desde el próximo inicio de sesión).");
-                } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException | NumberFormatException e) {
+                } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException | NumberFormatException e) {
                     RonaldmichaToast.error(raiz, e instanceof NumberFormatException ? "Ingrese un número de minutos." : e.getMessage());
                 }
             });
@@ -448,7 +448,7 @@ public class RonaldmichaUsuariosController {
                 contexto.aprobaciones().rechazar(a.id(), mensaje.getText(), contexto.sesion());
                 modal.cerrar();
                 despuesDeResolver("Solicitud #" + a.id() + " rechazada.");
-            } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException e) {
+            } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException e) {
                 RonaldmichaToast.error(raiz, e.getMessage());
             }
         });
@@ -459,7 +459,7 @@ public class RonaldmichaUsuariosController {
         try {
             accion.run();
             despuesDeResolver(exito);
-        } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(raiz, e.getMessage());
         }
     }
@@ -474,7 +474,7 @@ public class RonaldmichaUsuariosController {
     private void cargarAprobaciones() {
         try {
             pendientes.setAll(contexto.aprobaciones().pendientes(contexto.sesion()));
-        } catch (RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelAccesoDenegadoException e) {
             pendientes.clear();
         }
         if (botonAprobaciones != null) {
@@ -529,7 +529,7 @@ public class RonaldmichaUsuariosController {
             filtroAccion.getItems().setAll(acciones);
             filtroUsuario.setValue(u == null || !usuarios.contains(u) ? TODOS_USUARIOS : u);
             filtroAccion.setValue(a == null || !acciones.contains(a) ? TODAS_ACCIONES : a);
-        } catch (RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelAccesoDenegadoException e) {
             filtroUsuario.getItems().clear();
             filtroAccion.getItems().clear();
         }
@@ -546,10 +546,10 @@ public class RonaldmichaUsuariosController {
         try {
             registros.setAll(contexto.auditoria().buscar(contexto.sesion(), filtro()));
             int n = registros.size();
-            totalAuditoria.setText(n == RonaldmichaAuditoriaService.MAXIMO_CONSULTA
+            totalAuditoria.setText(n == RonaldmichaelAuditoriaService.MAXIMO_CONSULTA
                     ? "Mostrando los " + n + " registros más recientes: acote el filtro para ver los anteriores."
                     : n + (n == 1 ? " registro" : " registros"));
-        } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(raiz, e.getMessage());
         }
     }
@@ -558,7 +558,7 @@ public class RonaldmichaUsuariosController {
         Filtro f;
         try {
             f = filtro();
-        } catch (RonaldmichaValidacionException e) {
+        } catch (RonaldmichaelValidacionException e) {
             RonaldmichaToast.error(raiz, e.getMessage());
             return;
         }

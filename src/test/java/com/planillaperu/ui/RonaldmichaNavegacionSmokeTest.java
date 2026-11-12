@@ -311,7 +311,7 @@ class RonaldmichaNavegacionSmokeTest {
             if (i == 6) {
                 assertThat(vista.lookupAll(".tarjeta-reporte").stream().map(ToggleButton.class::cast)
                         .filter(ToggleButton::isSelected).map(Node::getUserData).toList())
-                        .containsExactly(com.planillaperu.service.RonaldmichaReporte.BOLETA_PAGO);
+                        .containsExactly(com.planillaperu.service.RonaldmichaelReporte.BOLETA_PAGO);
             }
             RonaldmichaNavegacion.ir(RonaldmichaVista.INICIO);
         }
@@ -378,12 +378,12 @@ class RonaldmichaNavegacionSmokeTest {
             esperarVistaPrevia();
             raiz.applyCss();
             raiz.layout();
-            com.planillaperu.service.RonaldmichaReporte r = (com.planillaperu.service.RonaldmichaReporte) tarjeta.getUserData();
+            com.planillaperu.service.RonaldmichaelReporte r = (com.planillaperu.service.RonaldmichaelReporte) tarjeta.getUserData();
             javafx.scene.Parent hoja = (javafx.scene.Parent) contenido.lookup(".hoja-documento");
             if (hoja == null) {
                 hoja = (javafx.scene.Parent) contenido.lookup(".hojas-boleta");
                 assertThat(hoja).as("vista previa de %s", r).isNotNull();
-                assertThat(r).isEqualTo(com.planillaperu.service.RonaldmichaReporte.BOLETA_PAGO);
+                assertThat(r).isEqualTo(com.planillaperu.service.RonaldmichaelReporte.BOLETA_PAGO);
                 assertThat(hoja.lookupAll(".hoja-boleta")).as("dos copias en %s", r).hasSize(2);
                 capturar(hoja, rol + "-HOJA-BOLETA");
             }
@@ -403,7 +403,7 @@ class RonaldmichaNavegacionSmokeTest {
                 });
                 assertThat(textos.stream().anyMatch(t -> t.startsWith("Todos ("))).as("todos en %s", r)
                         .isEqualTo(r.todosEnUnPdf());
-                if (r.porTrabajador() && r != com.planillaperu.service.RonaldmichaReporte.BOLETA_PAGO
+                if (r.porTrabajador() && r != com.planillaperu.service.RonaldmichaelReporte.BOLETA_PAGO
                         && hoja.lookup(".documento-error") == null) {
                     assertThat(hoja.lookup(".documento-empresa")).as("encabezado en %s", r).isNotNull();
                     assertThat(hoja.lookupAll(".documento-firma-linea")).as("firmas en %s", r).hasSize(2);

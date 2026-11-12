@@ -1,9 +1,9 @@
 package com.planillaperu.ui;
 
 import com.planillaperu.RonaldmichaAppContext;
-import com.planillaperu.calc.RonaldmichaAportePensionCalculator;
-import com.planillaperu.calc.RonaldmichaAportePensionCalculator.AportePension;
-import com.planillaperu.calc.RonaldmichaJornadaCalculator.Jornada;
+import com.planillaperu.calc.RonaldmichaelAportePensionCalculator;
+import com.planillaperu.calc.RonaldmichaelAportePensionCalculator.AportePension;
+import com.planillaperu.calc.RonaldmichaelJornadaCalculator.Jornada;
 import com.planillaperu.common.RonaldmichaFormatos;
 import com.planillaperu.domain.RonaldmichaAprobacion;
 import com.planillaperu.domain.RonaldmichaCategoria;
@@ -15,8 +15,8 @@ import com.planillaperu.domain.RonaldmichaTipoComision;
 import com.planillaperu.domain.RonaldmichaTipoDocumento;
 import com.planillaperu.domain.RonaldmichaTipoPago;
 import com.planillaperu.domain.RonaldmichaTrabajador;
-import com.planillaperu.service.RonaldmichaConsultaReniec;
-import com.planillaperu.service.RonaldmichaParametroNoEncontradoException;
+import com.planillaperu.service.RonaldmichaelConsultaReniec;
+import com.planillaperu.service.RonaldmichaelParametroNoEncontradoException;
 import com.planillaperu.ui.components.RonaldmichaToast;
 import com.planillaperu.ui.components.RonaldmichaValidacion;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -348,7 +348,7 @@ final class RonaldmichaTrabajadorFormulario extends VBox {
 
         try {
             asigFamiliar.setText("Asignación familiar (" + RonaldmichaFormatos.moneda(contexto.trabajadores().asignacionFamiliar(periodo)) + ")");
-        } catch (RonaldmichaParametroNoEncontradoException e) {
+        } catch (RonaldmichaelParametroNoEncontradoException e) {
             asigFamiliar.setText("Asignación familiar");
         }
         actualizarPension();
@@ -370,14 +370,14 @@ final class RonaldmichaTrabajadorFormulario extends VBox {
         try {
             a = contexto.trabajadores().aportePension(s, tipoComision.getValue(), dec(sueldo),
                     asigFamiliar.isSelected(), periodo);
-        } catch (RonaldmichaParametroNoEncontradoException e) {
+        } catch (RonaldmichaelParametroNoEncontradoException e) {
             recuadroPension.getChildren().add(linea(e.getMessage()));
             return;
         }
         if (!afp) {
             recuadroPension.getChildren().addAll(
                     titulo("ONP – D.L. 19990"),
-                    linea("Aporte " + pct(a.tasaAporte()) + " (código " + RonaldmichaAportePensionCalculator.CODIGO_ONP + ") = "
+                    linea("Aporte " + pct(a.tasaAporte()) + " (código " + RonaldmichaelAportePensionCalculator.CODIGO_ONP + ") = "
                             + RonaldmichaFormatos.moneda(a.aporte()) + base(a) + "."),
                     linea("No paga prima ni comisión. No requiere CUSPP. Se declara en el PDT PLAME."),
                     linea("Jubilación: 20 años de aportes y 65 años de edad."),
@@ -386,15 +386,15 @@ final class RonaldmichaTrabajadorFormulario extends VBox {
         }
         recuadroPension.getChildren().addAll(
                 titulo(s.nombre() + " – Sistema Privado de Pensiones"),
-                linea("Aporte obligatorio " + pct(a.tasaAporte()) + " (código " + RonaldmichaAportePensionCalculator.CODIGO_AFP_APORTE
+                linea("Aporte obligatorio " + pct(a.tasaAporte()) + " (código " + RonaldmichaelAportePensionCalculator.CODIGO_AFP_APORTE
                         + ") = " + RonaldmichaFormatos.moneda(a.aporte()) + base(a)),
-                linea("Prima de seguros " + pct(a.tasaPrima()) + " (código " + RonaldmichaAportePensionCalculator.CODIGO_AFP_PRIMA
+                linea("Prima de seguros " + pct(a.tasaPrima()) + " (código " + RonaldmichaelAportePensionCalculator.CODIGO_AFP_PRIMA
                         + ") sobre " + RonaldmichaFormatos.moneda(a.basePrima()) + ", con tope RMA " + RonaldmichaFormatos.moneda(a.topePrima())
                         + (a.primaTopada() ? " (aplicado)" : "") + " = " + RonaldmichaFormatos.moneda(a.prima())),
                 linea(a.tipoComision() == RonaldmichaTipoComision.MIXTA
                         ? "Comisión mixta: se cobra sobre el saldo (" + pct(a.tasaComision()) + " anual), no sobre la remuneración."
                         : "Comisión de flujo " + pct(a.tasaComision()) + " (código "
-                        + RonaldmichaAportePensionCalculator.CODIGO_AFP_COMISION + ") = " + RonaldmichaFormatos.moneda(a.comision())),
+                        + RonaldmichaelAportePensionCalculator.CODIGO_AFP_COMISION + ") = " + RonaldmichaFormatos.moneda(a.comision())),
                 totalLinea("Total descuento AFP: " + RonaldmichaFormatos.moneda(a.total())),
                 linea("Se declara en AFPnet."));
     }
@@ -421,11 +421,11 @@ final class RonaldmichaTrabajadorFormulario extends VBox {
 
     private void consultarReniec() {
         try {
-            RonaldmichaConsultaReniec.DatosReniec datos = contexto.reniec().consultar(numDoc.getText());
+            RonaldmichaelConsultaReniec.DatosReniec datos = contexto.reniec().consultar(numDoc.getText());
             apPaterno.setText(datos.apPaterno());
             apMaterno.setText(datos.apMaterno());
             nombres.setText(datos.nombres());
-        } catch (RonaldmichaConsultaReniec.ServicioNoConectadoException e) {
+        } catch (RonaldmichaelConsultaReniec.ServicioNoConectadoException e) {
             RonaldmichaToast.error(this, e.getMessage());
         }
     }

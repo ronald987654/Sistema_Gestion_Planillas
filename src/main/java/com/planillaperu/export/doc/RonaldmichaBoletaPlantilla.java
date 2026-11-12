@@ -1,10 +1,10 @@
 package com.planillaperu.export.doc;
 
-import com.planillaperu.calc.RonaldmichaAportePensionCalculator;
-import com.planillaperu.calc.RonaldmichaAportePensionCalculator.AportePension;
-import com.planillaperu.calc.RonaldmichaPlanillaCalculator;
-import com.planillaperu.calc.RonaldmichaRentaQuintaCalculator;
-import com.planillaperu.calc.RonaldmichaResultadoPlanilla;
+import com.planillaperu.calc.RonaldmichaelAportePensionCalculator;
+import com.planillaperu.calc.RonaldmichaelAportePensionCalculator.AportePension;
+import com.planillaperu.calc.RonaldmichaelPlanillaCalculator;
+import com.planillaperu.calc.RonaldmichaelRentaQuintaCalculator;
+import com.planillaperu.calc.RonaldmichaelResultadoPlanilla;
 import com.planillaperu.common.RonaldmichaDinero;
 import com.planillaperu.common.RonaldmichaFormatos;
 import com.planillaperu.common.RonaldmichaNumeroALetras;
@@ -43,7 +43,7 @@ public final class RonaldmichaBoletaPlantilla {
     private static final BigDecimal TREINTA = BigDecimal.valueOf(30);
     private static final String SIN_DATO = "—";
 
-    public record Entrada(RonaldmichaTrabajador trabajador, RonaldmichaResultadoPlanilla resultado, BigDecimal horasOrdinarias,
+    public record Entrada(RonaldmichaTrabajador trabajador, RonaldmichaelResultadoPlanilla resultado, BigDecimal horasOrdinarias,
                           int minutosExtra, RonaldmichaEmpresa empresa, RonaldmichaParametrosVersion parametros, YearMonth mes,
                           String otroEmpleador, BigDecimal importeOtro, LocalDate inicioVacaciones,
                           LocalDate finVacaciones, String numeroLiquidacion) {
@@ -79,7 +79,7 @@ public final class RonaldmichaBoletaPlantilla {
 
     public static RonaldmichaDocumentModel modelo(Entrada in) {
         RonaldmichaTrabajador t = in.trabajador();
-        RonaldmichaResultadoPlanilla r = in.resultado();
+        RonaldmichaelResultadoPlanilla r = in.resultado();
         RonaldmichaEmpresa e = in.empresa();
 
         int diasComputables = r.diasLaborados() + r.inasistencias();
@@ -111,7 +111,7 @@ public final class RonaldmichaBoletaPlantilla {
 
     private static List<FilaDatos> datos(Entrada in, BigDecimal computable) {
         RonaldmichaTrabajador t = in.trabajador();
-        RonaldmichaResultadoPlanilla r = in.resultado();
+        RonaldmichaelResultadoPlanilla r = in.resultado();
         RonaldmichaEmpresa e = in.empresa();
         String direccionEmpresa = vacio(e.direccion()) ? Boleta.COMPLETAR
                 : e.direccion().trim() + " - " + (vacio(e.distrito()) ? Boleta.COMPLETAR : e.distrito().trim());
@@ -156,54 +156,54 @@ public final class RonaldmichaBoletaPlantilla {
                 new FilaDatos(List.of(laboral)), new FilaDatos(List.of(dias, otro, cuenta)));
     }
 
-    private static List<LineaBoleta> remuneraciones(RonaldmichaResultadoPlanilla r, BigDecimal computable) {
+    private static List<LineaBoleta> remuneraciones(RonaldmichaelResultadoPlanilla r, BigDecimal computable) {
         List<LineaBoleta> l = new ArrayList<>();
-        l.add(new LineaBoleta(RonaldmichaPlanillaCalculator.COD_BASICO, "Sueldo Computable", computable, null));
-        l.add(new LineaBoleta(RonaldmichaPlanillaCalculator.COD_ASIG_FAMILIAR, "Asignación Familiar", r.asignacionFamiliar(), null));
-        l.add(new LineaBoleta(RonaldmichaPlanillaCalculator.COD_VACACIONAL, "Remuner. Vacacional", r.remuneracionVacacional(), null));
-        l.add(new LineaBoleta(RonaldmichaPlanillaCalculator.COD_MOVILIDAD, "Mov. Sup. Asistencia", r.movilidad(), null));
-        siHay(l, RonaldmichaPlanillaCalculator.COD_HE_25, "HE 25%", r.horasExtra25(), null);
-        siHay(l, RonaldmichaPlanillaCalculator.COD_HE_35, "HE 35%", r.horasExtra35(), null);
-        siHay(l, RonaldmichaPlanillaCalculator.COD_FERIADO, "Trabajo en Feriado/Descanso", r.feriadoTrabajado(), null);
-        siHay(l, RonaldmichaPlanillaCalculator.COD_COMISIONES, "Comisiones", r.comisiones(), null);
-        siHay(l, RonaldmichaPlanillaCalculator.COD_BONIFICACION, "Bonificación", r.bonificacion(), null);
-        siHay(l, RonaldmichaPlanillaCalculator.COD_SUBSIDIO, "Subsidio Incapacidad Temporal", r.subsidio(), null);
+        l.add(new LineaBoleta(RonaldmichaelPlanillaCalculator.COD_BASICO, "Sueldo Computable", computable, null));
+        l.add(new LineaBoleta(RonaldmichaelPlanillaCalculator.COD_ASIG_FAMILIAR, "Asignación Familiar", r.asignacionFamiliar(), null));
+        l.add(new LineaBoleta(RonaldmichaelPlanillaCalculator.COD_VACACIONAL, "Remuner. Vacacional", r.remuneracionVacacional(), null));
+        l.add(new LineaBoleta(RonaldmichaelPlanillaCalculator.COD_MOVILIDAD, "Mov. Sup. Asistencia", r.movilidad(), null));
+        siHay(l, RonaldmichaelPlanillaCalculator.COD_HE_25, "HE 25%", r.horasExtra25(), null);
+        siHay(l, RonaldmichaelPlanillaCalculator.COD_HE_35, "HE 35%", r.horasExtra35(), null);
+        siHay(l, RonaldmichaelPlanillaCalculator.COD_FERIADO, "Trabajo en Feriado/Descanso", r.feriadoTrabajado(), null);
+        siHay(l, RonaldmichaelPlanillaCalculator.COD_COMISIONES, "Comisiones", r.comisiones(), null);
+        siHay(l, RonaldmichaelPlanillaCalculator.COD_BONIFICACION, "Bonificación", r.bonificacion(), null);
+        siHay(l, RonaldmichaelPlanillaCalculator.COD_SUBSIDIO, "Subsidio Incapacidad Temporal", r.subsidio(), null);
         siHay(l, null, "Otros ingresos", RonaldmichaDinero.sumar(r.ingresosExtraAfectos(), r.ingresosExtraNoAfectos()), null);
         return l;
     }
 
-    private static List<LineaBoleta> descuentos(RonaldmichaTrabajador t, RonaldmichaResultadoPlanilla r, BigDecimal faltas,
+    private static List<LineaBoleta> descuentos(RonaldmichaTrabajador t, RonaldmichaelResultadoPlanilla r, BigDecimal faltas,
                                                 BigDecimal tardanza) {
         AportePension p = r.pension();
         boolean afp = t.sistemaPension().esAfp();
         boolean flujo = afp && t.tipoComision() == RonaldmichaTipoComision.FLUJO;
         List<LineaBoleta> l = new ArrayList<>();
-        l.add(new LineaBoleta(RonaldmichaAportePensionCalculator.CODIGO_AFP_APORTE, "AFP Fondo", afp ? p.aporte() : RonaldmichaDinero.CERO,
+        l.add(new LineaBoleta(RonaldmichaelAportePensionCalculator.CODIGO_AFP_APORTE, "AFP Fondo", afp ? p.aporte() : RonaldmichaDinero.CERO,
                 pct(afp ? p.tasaAporte() : null)));
-        l.add(new LineaBoleta(RonaldmichaAportePensionCalculator.CODIGO_AFP_COMISION, "AFP Comisión", p.comision(),
+        l.add(new LineaBoleta(RonaldmichaelAportePensionCalculator.CODIGO_AFP_COMISION, "AFP Comisión", p.comision(),
                 pct(flujo ? p.tasaComision() : null)));
-        l.add(new LineaBoleta(RonaldmichaAportePensionCalculator.CODIGO_AFP_PRIMA, "AFP Seguro", p.prima(),
+        l.add(new LineaBoleta(RonaldmichaelAportePensionCalculator.CODIGO_AFP_PRIMA, "AFP Seguro", p.prima(),
                 pct(afp ? p.tasaPrima() : null)));
-        l.add(new LineaBoleta(RonaldmichaAportePensionCalculator.CODIGO_ONP, "ONP", afp ? RonaldmichaDinero.CERO : p.aporte(),
+        l.add(new LineaBoleta(RonaldmichaelAportePensionCalculator.CODIGO_ONP, "ONP", afp ? RonaldmichaDinero.CERO : p.aporte(),
                 pct(t.sistemaPension() == RonaldmichaSistemaPension.ONP ? p.tasaAporte() : null)));
         l.add(new LineaBoleta(COD_FALTAS, "Faltas", faltas, null));
-        l.add(new LineaBoleta(RonaldmichaRentaQuintaCalculator.CODIGO, "Retenciones 5ta", r.rentaQuinta(), null));
+        l.add(new LineaBoleta(RonaldmichaelRentaQuintaCalculator.CODIGO, "Retenciones 5ta", r.rentaQuinta(), null));
         l.add(new LineaBoleta(COD_JUDICIAL, "Retenciones Judiciales", RonaldmichaDinero.CERO, null));
-        l.add(new LineaBoleta(RonaldmichaPlanillaCalculator.COD_ADELANTO, "Adelantos", r.adelanto(), null));
-        siHay(l, RonaldmichaPlanillaCalculator.COD_TARDANZA, "Tardanzas", tardanza, null);
-        siHay(l, RonaldmichaPlanillaCalculator.COD_OTROS_DESCUENTOS, "Otros descuentos",
+        l.add(new LineaBoleta(RonaldmichaelPlanillaCalculator.COD_ADELANTO, "Adelantos", r.adelanto(), null));
+        siHay(l, RonaldmichaelPlanillaCalculator.COD_TARDANZA, "Tardanzas", tardanza, null);
+        siHay(l, RonaldmichaelPlanillaCalculator.COD_OTROS_DESCUENTOS, "Otros descuentos",
                 RonaldmichaDinero.sumar(r.otrosDescuentos(), r.descuentosExtra()), null);
         return l;
     }
 
-    private static List<LineaBoleta> aportes(RonaldmichaTrabajador t, RonaldmichaResultadoPlanilla r, RonaldmichaParametrosVersion p) {
+    private static List<LineaBoleta> aportes(RonaldmichaTrabajador t, RonaldmichaelResultadoPlanilla r, RonaldmichaParametrosVersion p) {
         List<LineaBoleta> l = new ArrayList<>();
         BigDecimal tasaSalud = switch (t.salud()) {
             case EPS -> p.epsPct();
             case ESSALUD -> p.essaludPct();
             case SIS -> null;
         };
-        l.add(new LineaBoleta(RonaldmichaPlanillaCalculator.COD_ESSALUD, t.salud() == RonaldmichaSalud.EPS ? "Essalud (con EPS)" : "Essalud",
+        l.add(new LineaBoleta(RonaldmichaelPlanillaCalculator.COD_ESSALUD, t.salud() == RonaldmichaSalud.EPS ? "Essalud (con EPS)" : "Essalud",
                 r.essalud(), pct(tasaSalud)));
         l.add(new LineaBoleta(null, "S.C.T.R.", RonaldmichaDinero.CERO, null));
         siHay(l, null, "SIS", r.sis(), null);

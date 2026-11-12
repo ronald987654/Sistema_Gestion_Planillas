@@ -3,7 +3,7 @@ package com.planillaperu.ui;
 import com.planillaperu.RonaldmichaAppContext;
 import com.planillaperu.domain.RonaldmichaRol;
 import com.planillaperu.domain.RonaldmichaUsuario;
-import com.planillaperu.service.RonaldmichaAccesoDenegadoException;
+import com.planillaperu.service.RonaldmichaelAccesoDenegadoException;
 import com.planillaperu.ui.components.RonaldmichaConfirmButton;
 import com.planillaperu.ui.components.RonaldmichaModal;
 import com.planillaperu.ui.components.RonaldmichaToast;
@@ -87,7 +87,7 @@ public class RonaldmichaLoginController {
                 campoClave.clear();
                 mostrarError("Debe cambiar la contraseña temporal para ingresar.");
             });
-        } catch (RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelAccesoDenegadoException e) {
             campoClave.clear();
             campoClave.requestFocus();
             mostrarError(e.getMessage());

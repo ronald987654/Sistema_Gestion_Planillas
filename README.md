@@ -88,19 +88,23 @@ Ambas operaciones quedan en la auditoría.
 
 ## Empaquetar (instalador para Windows)
 
-El script `empaquetar.ps1` compila, copia las dependencias a `target/instalador` y ejecuta `jpackage` con el
-ícono `src/main/packaging/planilla-peru.ico`, el nombre **Planilla Perú**, accesos directos en el escritorio y en
-el menú Inicio, y la opción de elegir la carpeta de instalación.
+El script `empaquetar.ps1` genera con `mvnw -Pinstalador package` un **fat JAR** con todas las dependencias
+(`target/instalador/planilla-peru.jar`, plugin shade) y los módulos de JavaFX para Windows (`target/javafx-mods`),
+y ejecuta `jpackage` con un runtime propio que incluye `javafx.controls,javafx.fxml`, el ícono
+`src/main/packaging/planilla-peru.ico`, accesos directos en el escritorio y en el menú Inicio, y la opción de
+elegir la carpeta de instalación. El resultado queda en `dist/`.
 
 ```powershell
 $env:JAVA_HOME = 'C:\ruta\a\jdk-21'
-.\empaquetar.ps1                  # target\dist\Planilla Perú-0.1.0.msi
-.\empaquetar.ps1 -Tipo exe        # instalador .exe
-.\empaquetar.ps1 -Tipo app-image  # carpeta target\dist\Planilla Perú\ con Planilla Perú.exe (sin instalar)
+.\empaquetar.ps1                  # dist\Planilla Peru-1.0.0.exe
+.\empaquetar.ps1 -Tipo msi        # dist\Planilla Peru-1.0.0.msi
+.\empaquetar.ps1 -Tipo app-image  # carpeta dist\Planilla Peru\ con Planilla Peru.exe (sin instalar)
 ```
 
-- `.msi` y `.exe` necesitan **WiX Toolset 3.x** (`candle.exe` y `light.exe` en el `PATH`); descárguelo de
-  <https://wixtoolset.org/>. Sin WiX, el script se detiene con un aviso; `-Tipo app-image` funciona sin WiX.
+- `.exe` y `.msi` necesitan **WiX Toolset 3.x**. El script lo busca en el `PATH`, en `%USERPROFILE%\.wix314`
+  (contenido de `wix314-binaries.zip`, sin instalar), en una carpeta `wix3*` en la raíz de cualquier disco
+  (por ejemplo `D:\wix314-binaries`) o en `C:\Program Files (x86)\WiX Toolset v3.*`.
+  Sin WiX, el script se detiene con un aviso; `-Tipo app-image` funciona sin WiX.
 - El paquete incluye su propio Java (no hace falta instalar Java en el equipo destino).
 - Si PowerShell bloquea el script: `powershell -ExecutionPolicy Bypass -File .\empaquetar.ps1`.
 - El ícono se genera con `java tools/RonaldmichaGenerarIcono.java` (también deja `icono.png` para la ventana).
@@ -128,7 +132,7 @@ planillas** (y contra las normas y publicaciones vigentes de SUNAT, SBS y MTPE) 
 
 1. **Códigos de suspensión PLAME (archivo `.snl`).** El ZIP de PLAME usa por ahora tres códigos fijos:
    `07` falta (inasistencia injustificada), `21` incapacidad temporal subsidiada y `23` vacaciones
-   (`RonaldmichaReportesService`, sección PLAME). Faltan otros tipos de suspensión (licencias con y sin goce, descanso
+   (`RonaldmichaelReportesService`, sección PLAME). Faltan otros tipos de suspensión (licencias con y sin goce, descanso
    médico de los primeros 20 días, maternidad, etc.). Confirme cada código con la tabla vigente de tipos de
    suspensión de la relación laboral de SUNAT antes de importar el archivo en el PDT PLAME. Revise también los
    códigos de conceptos de ingresos, descuentos y aportes que aparecen en boletas y en el `.rem`.
@@ -139,7 +143,7 @@ planillas** (y contra las normas y publicaciones vigentes de SUNAT, SBS y MTPE) 
    cuando cambien. Lo mismo para la RMV, la UIT, EsSalud, ONP y el seguro Vida Ley.
 
 3. **Renta de quinta categoría: cálculo mensual exacto (art. 40 del Reglamento de la Ley del Impuesto a la
-   Renta).** `RonaldmichaRentaQuintaCalculator` hace una versión **simplificada**: proyecta el año con la remuneración del
+   Renta).** `RonaldmichaelRentaQuintaCalculator` hace una versión **simplificada**: proyecta el año con la remuneración del
    mes, resta 7 UIT, aplica la escala progresiva y retiene un doceavo. El procedimiento del art. 40 recalcula la
    retención cada mes con las remuneraciones ya pagadas, la proyección de los meses que faltan (incluidas
    gratificaciones), las retenciones de meses anteriores y un divisor que cambia según el mes (12 hasta marzo;

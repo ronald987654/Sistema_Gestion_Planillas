@@ -1,7 +1,7 @@
 # Cálculos de Planilla Perú
 
 Fórmula de cada concepto, su base legal y el ejemplo numérico con el que se prueba
-(`src/test/java/com/planillaperu/service/RonaldmichaCalculosOficialesTest.java`, casos C1 a C34).
+(`src/test/java/com/planillaperu/service/RonaldmichaelCalculosOficialesTest.java`, casos C1 a C34).
 
 **Reglas generales**
 
@@ -16,7 +16,7 @@ bonificación extraordinaria 9 % (6.75 % con EPS).
 
 ---
 
-## 1. Planilla mensual (`calc/RonaldmichaPlanillaCalculator`)
+## 1. Planilla mensual (`calc/RonaldmichaelPlanillaCalculator`)
 
 | Concepto | Fórmula | Base legal | Ejemplo |
 |---|---|---|---|
@@ -43,7 +43,7 @@ Microempresa (C11): no genera gratificación ni CTS (factor 0) y tiene 15 días 
 
 ---
 
-## 2. Renta de quinta categoría: art. 40 del Reglamento de la LIR (`calc/RonaldmichaRentaQuintaCalculator`)
+## 2. Renta de quinta categoría: art. 40 del Reglamento de la LIR (`calc/RonaldmichaelRentaQuintaCalculator`)
 
 **Renta anual proyectada** = remuneración ordinaria del mes × meses que faltan del año (incluido el mes)
 \+ gratificaciones de julio y diciembre que faltan recibir (con su bonificación extraordinaria)
@@ -89,7 +89,7 @@ más de 35 hasta 45 UIT 20 % · más de 45 UIT 30 %.
 
 ---
 
-## 3. Gratificación (Ley 27735, D.S. 005-2002-TR, Ley 30334) (`calc/RonaldmichaGratificacionCalculator`)
+## 3. Gratificación (Ley 27735, D.S. 005-2002-TR, Ley 30334) (`calc/RonaldmichaelGratificacionCalculator`)
 
 - **Computable** = básico + AF + promedio de la variable (horas extra, feriados trabajados, comisiones), que solo entra si
   se percibió en 3 o más meses del semestre: suma ÷ 6 (C23).
@@ -109,7 +109,7 @@ más de 35 hasta 45 UIT 20 % · más de 45 UIT 30 %.
 
 ---
 
-## 4. CTS (D.S. 001-97-TR) (`calc/RonaldmichaCtsCalculator`)
+## 4. CTS (D.S. 001-97-TR) (`calc/RonaldmichaelCtsCalculator`)
 
 - **Computable** = básico + AF + promedio variable (regla de 3 meses) + 1/6 de la gratificación del semestre.
 - **CTS** = computable / 12 × meses + computable / 360 × días − computable / 360 × faltas (cada parte redondeada)
@@ -124,7 +124,7 @@ más de 35 hasta 45 UIT 20 % · más de 45 UIT 30 %.
 
 ---
 
-## 5. Vacaciones y liquidación (`calc/RonaldmichaLiquidacionCalculator`)
+## 5. Vacaciones y liquidación (`calc/RonaldmichaelLiquidacionCalculator`)
 
 | Concepto | Fórmula | Base legal | Ejemplo |
 |---|---|---|---|

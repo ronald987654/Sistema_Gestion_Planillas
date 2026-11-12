@@ -5,9 +5,9 @@ import com.planillaperu.common.RonaldmichaFormatos;
 import com.planillaperu.domain.RonaldmichaEmpresa;
 import com.planillaperu.domain.RonaldmichaRegimenLaboral;
 import com.planillaperu.domain.RonaldmichaRuc;
-import com.planillaperu.service.RonaldmichaAccesoDenegadoException;
-import com.planillaperu.service.RonaldmichaEmpresaService;
-import com.planillaperu.service.RonaldmichaValidacionException;
+import com.planillaperu.service.RonaldmichaelAccesoDenegadoException;
+import com.planillaperu.service.RonaldmichaelEmpresaService;
+import com.planillaperu.service.RonaldmichaelValidacionException;
 import com.planillaperu.ui.components.RonaldmichaValidacion;
 import com.planillaperu.ui.components.RonaldmichaToast;
 import javafx.beans.value.ChangeListener;
@@ -260,12 +260,12 @@ public class RonaldmichaEmpresaController {
             id = guardada.id();
             ocultarErrores();
             RonaldmichaToast.exito(botonGuardar, "Datos de la empresa guardados.");
-        } catch (RonaldmichaValidacionException e) {
+        } catch (RonaldmichaelValidacionException e) {
             erroresGuardado.setText(e.errores().stream().map(m -> "• " + m).collect(Collectors.joining("\n")));
             erroresGuardado.setVisible(true);
             erroresGuardado.setManaged(true);
             RonaldmichaToast.error(botonGuardar, "Revise los datos: no se guardaron los cambios.");
-        } catch (RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(botonGuardar, e.getMessage());
         }
     }
@@ -316,7 +316,7 @@ public class RonaldmichaEmpresaController {
             return;
         }
         try {
-            if (archivo.length() > RonaldmichaEmpresaService.MAX_IMAGEN_BYTES) {
+            if (archivo.length() > RonaldmichaelEmpresaService.MAX_IMAGEN_BYTES) {
                 RonaldmichaToast.error(botonGuardar, "La imagen pesa más de 2 MB.");
                 return;
             }

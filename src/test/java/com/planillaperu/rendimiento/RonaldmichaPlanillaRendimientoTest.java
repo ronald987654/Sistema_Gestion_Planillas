@@ -10,14 +10,14 @@ import com.planillaperu.repository.RonaldmichaParametrosRepository;
 import com.planillaperu.repository.RonaldmichaPeriodoRepository;
 import com.planillaperu.repository.RonaldmichaPlanillaRepository;
 import com.planillaperu.repository.RonaldmichaTrabajadorRepository;
-import com.planillaperu.service.RonaldmichaAsistenciaService;
-import com.planillaperu.service.RonaldmichaAuditoriaService;
-import com.planillaperu.service.RonaldmichaBeneficiosService;
-import com.planillaperu.service.RonaldmichaEmpresaService;
-import com.planillaperu.service.RonaldmichaParametrosService;
-import com.planillaperu.service.RonaldmichaPeriodoService;
-import com.planillaperu.service.RonaldmichaPlanillaService;
-import com.planillaperu.service.RonaldmichaPlanillaService.PlanillaMes;
+import com.planillaperu.service.RonaldmichaelAsistenciaService;
+import com.planillaperu.service.RonaldmichaelAuditoriaService;
+import com.planillaperu.service.RonaldmichaelBeneficiosService;
+import com.planillaperu.service.RonaldmichaelEmpresaService;
+import com.planillaperu.service.RonaldmichaelParametrosService;
+import com.planillaperu.service.RonaldmichaelPeriodoService;
+import com.planillaperu.service.RonaldmichaelPlanillaService;
+import com.planillaperu.service.RonaldmichaelPlanillaService.PlanillaMes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -41,26 +41,26 @@ class RonaldmichaPlanillaRendimientoTest {
     @TempDir
     Path carpeta;
 
-    private RonaldmichaPlanillaService planilla;
+    private RonaldmichaelPlanillaService planilla;
 
     @BeforeEach
     void preparar() throws SQLException {
         RonaldmichaDatabase db = RonaldmichaBaseDatosPrueba.crear(carpeta);
         copiarTrabajadores(db, TRABAJADORES - 7);
         Clock reloj = Clock.fixed(Instant.parse("2026-10-15T15:00:00Z"), ZoneId.of("America/Lima"));
-        RonaldmichaAuditoriaService auditoria = new RonaldmichaAuditoriaService(new RonaldmichaAuditoriaRepository(db), reloj);
+        RonaldmichaelAuditoriaService auditoria = new RonaldmichaelAuditoriaService(new RonaldmichaAuditoriaRepository(db), reloj);
         RonaldmichaTrabajadorRepository trabajadores = new RonaldmichaTrabajadorRepository(db);
         RonaldmichaPeriodoRepository periodoRepositorio = new RonaldmichaPeriodoRepository(db);
-        RonaldmichaParametrosService parametros = new RonaldmichaParametrosService(new RonaldmichaParametrosRepository(db), periodoRepositorio,
+        RonaldmichaelParametrosService parametros = new RonaldmichaelParametrosService(new RonaldmichaParametrosRepository(db), periodoRepositorio,
                 trabajadores, auditoria, reloj);
-        RonaldmichaPeriodoService periodos = new RonaldmichaPeriodoService(periodoRepositorio, reloj);
+        RonaldmichaelPeriodoService periodos = new RonaldmichaelPeriodoService(periodoRepositorio, reloj);
         RonaldmichaAsistenciaRepository asistenciaRepositorio = new RonaldmichaAsistenciaRepository(db);
-        RonaldmichaAsistenciaService asistencia = new RonaldmichaAsistenciaService(asistenciaRepositorio, trabajadores, periodos, parametros,
+        RonaldmichaelAsistenciaService asistencia = new RonaldmichaelAsistenciaService(asistenciaRepositorio, trabajadores, periodos, parametros,
                 auditoria, reloj);
-        planilla = new RonaldmichaPlanillaService(trabajadores, asistenciaRepositorio, new RonaldmichaPlanillaRepository(db),
+        planilla = new RonaldmichaelPlanillaService(trabajadores, asistenciaRepositorio, new RonaldmichaPlanillaRepository(db),
                 periodoRepositorio, periodos, parametros, asistencia, auditoria, reloj);
-        new RonaldmichaBeneficiosService(trabajadores, new RonaldmichaBeneficioRepository(db), planilla, parametros,
-                new RonaldmichaEmpresaService(new RonaldmichaEmpresaRepository(db), auditoria), auditoria);
+        new RonaldmichaelBeneficiosService(trabajadores, new RonaldmichaBeneficioRepository(db), planilla, parametros,
+                new RonaldmichaelEmpresaService(new RonaldmichaEmpresaRepository(db), auditoria), auditoria);
     }
 
     @Test

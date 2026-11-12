@@ -4,10 +4,10 @@ import com.planillaperu.RonaldmichaAppContext;
 import com.planillaperu.common.RonaldmichaFormatos;
 import com.planillaperu.domain.RonaldmichaAprobacion;
 import com.planillaperu.domain.RonaldmichaTrabajador;
-import com.planillaperu.service.RonaldmichaAccesoDenegadoException;
-import com.planillaperu.service.RonaldmichaTrabajadorService.MisDatos;
-import com.planillaperu.service.RonaldmichaTrabajadorService.TipoCuenta;
-import com.planillaperu.service.RonaldmichaValidacionException;
+import com.planillaperu.service.RonaldmichaelAccesoDenegadoException;
+import com.planillaperu.service.RonaldmichaelTrabajadorService.MisDatos;
+import com.planillaperu.service.RonaldmichaelTrabajadorService.TipoCuenta;
+import com.planillaperu.service.RonaldmichaelValidacionException;
 import com.planillaperu.ui.components.RonaldmichaModal;
 import com.planillaperu.ui.components.RonaldmichaToast;
 import javafx.fxml.FXML;
@@ -48,7 +48,7 @@ public class RonaldmichaMisDatosController {
         MisDatos datos;
         try {
             datos = contexto.trabajadores().misDatos(contexto.sesion());
-        } catch (RonaldmichaAccesoDenegadoException | RonaldmichaValidacionException e) {
+        } catch (RonaldmichaelAccesoDenegadoException | RonaldmichaelValidacionException e) {
             Label aviso = new Label(e.getMessage());
             aviso.getStyleClass().addAll("alert", "error");
             raiz.getChildren().setAll(aviso);
@@ -107,11 +107,11 @@ public class RonaldmichaMisDatosController {
             contexto.trabajadores().actualizarContacto(contexto.sesion(), celular.getText(), correo.getText());
             ocultar(errores);
             RonaldmichaToast.exito(raiz, "Datos de contacto actualizados.");
-        } catch (RonaldmichaValidacionException e) {
+        } catch (RonaldmichaelValidacionException e) {
             errores.setText(e.errores().stream().map(m -> "• " + m).collect(Collectors.joining("\n")));
             errores.setVisible(true);
             errores.setManaged(true);
-        } catch (RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(raiz, e.getMessage());
         }
     }
@@ -182,11 +182,11 @@ public class RonaldmichaMisDatosController {
                 contexto.refrescarAprobaciones();
                 cargar();
                 RonaldmichaToast.exito(raiz, "Solicitud #" + a.id() + " enviada: se aplicará cuando la aprueben.");
-            } catch (RonaldmichaValidacionException ex) {
+            } catch (RonaldmichaelValidacionException ex) {
                 error.setText(ex.errores().stream().map(m -> "• " + m).collect(Collectors.joining("\n")));
                 error.setVisible(true);
                 error.setManaged(true);
-            } catch (RonaldmichaAccesoDenegadoException ex) {
+            } catch (RonaldmichaelAccesoDenegadoException ex) {
                 RonaldmichaToast.error(raiz, ex.getMessage());
             }
         });

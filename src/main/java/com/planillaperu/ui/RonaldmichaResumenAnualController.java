@@ -2,13 +2,13 @@ package com.planillaperu.ui;
 
 import com.planillaperu.RonaldmichaAppContext;
 import com.planillaperu.common.RonaldmichaFormatos;
-import com.planillaperu.service.RonaldmichaAccesoDenegadoException;
-import com.planillaperu.service.RonaldmichaResumenAnualService;
-import com.planillaperu.service.RonaldmichaResumenAnualService.Concepto;
-import com.planillaperu.service.RonaldmichaResumenAnualService.FilaAnual;
-import com.planillaperu.service.RonaldmichaResumenAnualService.Modo;
-import com.planillaperu.service.RonaldmichaResumenAnualService.Resumen;
-import com.planillaperu.service.RonaldmichaValidacionException;
+import com.planillaperu.service.RonaldmichaelAccesoDenegadoException;
+import com.planillaperu.service.RonaldmichaelResumenAnualService;
+import com.planillaperu.service.RonaldmichaelResumenAnualService.Concepto;
+import com.planillaperu.service.RonaldmichaelResumenAnualService.FilaAnual;
+import com.planillaperu.service.RonaldmichaelResumenAnualService.Modo;
+import com.planillaperu.service.RonaldmichaelResumenAnualService.Resumen;
+import com.planillaperu.service.RonaldmichaelValidacionException;
 import com.planillaperu.ui.components.RonaldmichaExportButton;
 import com.planillaperu.ui.components.RonaldmichaEmptyState;
 import com.planillaperu.ui.components.RonaldmichaIcono;
@@ -158,7 +158,7 @@ public class RonaldmichaResumenAnualController {
     private void cargar() {
         try {
             resumen = contexto.resumenAnual().consultar(contexto.sesion(), anio.getValue());
-        } catch (RonaldmichaAccesoDenegadoException | RonaldmichaValidacionException e) {
+        } catch (RonaldmichaelAccesoDenegadoException | RonaldmichaelValidacionException e) {
             RonaldmichaToast.error(raiz, e.getMessage());
             return;
         }
@@ -239,7 +239,7 @@ public class RonaldmichaResumenAnualController {
 
     private <T> TableColumn<T, BigDecimal> columnaMes(YearMonth mes, Function<T, BigDecimal> valor) {
         boolean futuro = resumen.futuro(mes);
-        TableColumn<T, BigDecimal> col = new TableColumn<>(RonaldmichaResumenAnualService.mesCorto(mes));
+        TableColumn<T, BigDecimal> col = new TableColumn<>(RonaldmichaelResumenAnualService.mesCorto(mes));
         col.setPrefWidth(104);
         col.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(futuro ? null : valor.apply(c.getValue())));
         col.setCellFactory(c -> new TableCell<>() {

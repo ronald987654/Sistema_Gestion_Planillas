@@ -1,8 +1,8 @@
 package com.planillaperu.ui;
 
 import com.planillaperu.RonaldmichaAppContext;
-import com.planillaperu.calc.RonaldmichaRentaQuintaCalculator;
-import com.planillaperu.calc.RonaldmichaResultadoPlanilla;
+import com.planillaperu.calc.RonaldmichaelRentaQuintaCalculator;
+import com.planillaperu.calc.RonaldmichaelResultadoPlanilla;
 import com.planillaperu.common.RonaldmichaDinero;
 import com.planillaperu.common.RonaldmichaFormatos;
 import com.planillaperu.common.RonaldmichaHoras;
@@ -13,13 +13,13 @@ import com.planillaperu.domain.RonaldmichaTipoConceptoExtra;
 import com.planillaperu.domain.RonaldmichaTrabajador;
 import com.planillaperu.domain.RonaldmichaTratamientoHe;
 import com.planillaperu.repository.RonaldmichaAsistenciaRepository.HoraExtraManual;
-import com.planillaperu.service.RonaldmichaAccesoDenegadoException;
-import com.planillaperu.service.RonaldmichaAsistenciaService.NovedadesPlanilla;
-import com.planillaperu.service.RonaldmichaPlanillaService;
-import com.planillaperu.service.RonaldmichaPlanillaService.Borrador;
-import com.planillaperu.service.RonaldmichaPlanillaService.Detalle;
-import com.planillaperu.service.RonaldmichaPlanillaService.Simulacion;
-import com.planillaperu.service.RonaldmichaValidacionException;
+import com.planillaperu.service.RonaldmichaelAccesoDenegadoException;
+import com.planillaperu.service.RonaldmichaelAsistenciaService.NovedadesPlanilla;
+import com.planillaperu.service.RonaldmichaelPlanillaService;
+import com.planillaperu.service.RonaldmichaelPlanillaService.Borrador;
+import com.planillaperu.service.RonaldmichaelPlanillaService.Detalle;
+import com.planillaperu.service.RonaldmichaelPlanillaService.Simulacion;
+import com.planillaperu.service.RonaldmichaelValidacionException;
 import com.planillaperu.ui.components.RonaldmichaConceptosPlanilla;
 import com.planillaperu.ui.components.RonaldmichaModal;
 import com.planillaperu.ui.components.RonaldmichaToast;
@@ -94,7 +94,7 @@ final class RonaldmichaPlanillaDetalle {
         Detalle d;
         try {
             d = contexto.planilla().detalle(contexto.sesion(), trabajadorId, mes);
-        } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(origen, e.getMessage());
             return;
         }
@@ -214,7 +214,7 @@ final class RonaldmichaPlanillaDetalle {
             return seccion("Registro de sobretiempo", l);
         }
         Label ayuda = new Label("Para meses sin marcaciones. Horas en múltiplos de 0.5; un día no puede pasar de "
-                + RonaldmichaPlanillaService.HORAS_MAXIMAS_DIA + " h (jornada de " + horas(detalle.horasDiarias())
+                + RonaldmichaelPlanillaService.HORAS_MAXIMAS_DIA + " h (jornada de " + horas(detalle.horasDiarias())
                 + " h + sobretiempo).");
         ayuda.getStyleClass().add("text-muted");
         ayuda.setWrapText(true);
@@ -288,7 +288,7 @@ final class RonaldmichaPlanillaDetalle {
                     modal.cerrar();
                     alGuardar.run();
                     RonaldmichaToast.exito(raiz, "Rentas de otros empleadores guardadas: se recalculó la renta de 5.ª.");
-                } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException ex) {
+                } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException ex) {
                     RonaldmichaToast.error(guardarOtro, ex.getMessage());
                 }
             });
@@ -340,10 +340,10 @@ final class RonaldmichaPlanillaDetalle {
     private void recalcular() {
         List<String> invalidos = new ArrayList<>();
         Simulacion s = contexto.planilla().simular(detalle, borrador(invalidos));
-        RonaldmichaResultadoPlanilla r = s.resultado();
+        RonaldmichaelResultadoPlanilla r = s.resultado();
         diasLaborados.setText(String.valueOf(r.diasLaborados()));
         columnas.mostrar(r);
-        RonaldmichaRentaQuintaCalculator.Renta renta = r.renta();
+        RonaldmichaelRentaQuintaCalculator.Renta renta = r.renta();
         rentaDetalle.setText("Renta anual proyectada " + RonaldmichaFormatos.moneda(renta.rentaAnualProyectada())
                 + " − 7 UIT " + RonaldmichaFormatos.moneda(renta.deduccion()) + " = renta neta " + RonaldmichaFormatos.moneda(renta.rentaNeta())
                 + " · impuesto anual " + RonaldmichaFormatos.moneda(renta.impuestoAnual())
@@ -364,14 +364,14 @@ final class RonaldmichaPlanillaDetalle {
 
     private void guardar() {
         try {
-            RonaldmichaResultadoPlanilla r = contexto.planilla().guardar(contexto.sesion(), detalle.trabajador().id(),
+            RonaldmichaelResultadoPlanilla r = contexto.planilla().guardar(contexto.sesion(), detalle.trabajador().id(),
                     detalle.mes(), borrador(new ArrayList<>()));
             Node raiz = guardar.getScene().getRoot();
             modal.cerrar();
             alGuardar.run();
             RonaldmichaToast.exito(raiz, "Planilla de " + detalle.trabajador().nombreCompleto() + " guardada · neto "
                     + RonaldmichaFormatos.moneda(r.netoAPagar()) + ".");
-        } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(guardar, e.getMessage());
         }
     }

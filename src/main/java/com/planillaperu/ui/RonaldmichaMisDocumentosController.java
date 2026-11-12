@@ -4,10 +4,10 @@ import com.planillaperu.RonaldmichaAppContext;
 import com.planillaperu.common.RonaldmichaFormatos;
 import com.planillaperu.domain.RonaldmichaDocumentoEmitido;
 import com.planillaperu.domain.RonaldmichaEstadoDocumento;
-import com.planillaperu.service.RonaldmichaAccesoDenegadoException;
-import com.planillaperu.service.RonaldmichaReporte;
-import com.planillaperu.service.RonaldmichaReportesService.BoletaPortal;
-import com.planillaperu.service.RonaldmichaValidacionException;
+import com.planillaperu.service.RonaldmichaelAccesoDenegadoException;
+import com.planillaperu.service.RonaldmichaelReporte;
+import com.planillaperu.service.RonaldmichaelReportesService.BoletaPortal;
+import com.planillaperu.service.RonaldmichaelValidacionException;
 import com.planillaperu.ui.components.RonaldmichaChip;
 import com.planillaperu.ui.components.RonaldmichaEmptyState;
 import com.planillaperu.ui.components.RonaldmichaIcono;
@@ -74,7 +74,7 @@ public class RonaldmichaMisDocumentosController {
             disponibles = boletas.stream().filter(BoletaPortal::disponible).map(BoletaPortal::mes)
                     .collect(Collectors.toSet());
             historial.setAll(contexto.reportes().emitidos(contexto.sesion()));
-        } catch (RonaldmichaAccesoDenegadoException | RonaldmichaValidacionException e) {
+        } catch (RonaldmichaelAccesoDenegadoException | RonaldmichaelValidacionException e) {
             RonaldmichaToast.error(raiz, e.getMessage());
         }
     }
@@ -116,7 +116,7 @@ public class RonaldmichaMisDocumentosController {
             if (destino != null) {
                 RonaldmichaToast.archivo(raiz, destino.toPath());
             }
-        }, e -> RonaldmichaToast.error(raiz, e instanceof RonaldmichaValidacionException || e instanceof RonaldmichaAccesoDenegadoException
+        }, e -> RonaldmichaToast.error(raiz, e instanceof RonaldmichaelValidacionException || e instanceof RonaldmichaelAccesoDenegadoException
                 ? e.getMessage() : "No se pudo generar la boleta: " + RonaldmichaTareas.mensaje(e)));
     }
 
@@ -126,7 +126,7 @@ public class RonaldmichaMisDocumentosController {
             cargar();
             RonaldmichaToast.exito(raiz, "Recepción de " + recibido.numero() + " confirmada el "
                     + RonaldmichaFormatos.fechaHora(recibido.fechaRecepcion()) + ".");
-        } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(raiz, e.getMessage());
         }
     }
@@ -139,7 +139,7 @@ public class RonaldmichaMisDocumentosController {
         numero.getStyleClass().add("mono");
         List<TableColumn<RonaldmichaDocumentoEmitido, ?>> columnas = List.of(numero,
                 texto("Documento", 220, d -> {
-                    RonaldmichaReporte r = RonaldmichaReporte.desdeTipo(d.tipo());
+                    RonaldmichaelReporte r = RonaldmichaelReporte.desdeTipo(d.tipo());
                     return r == null ? d.tipo() : r.titulo();
                 }),
                 texto("Periodo", 90, d -> d.periodo() == null ? "" : PERIODO.format(d.periodo())),
@@ -153,7 +153,7 @@ public class RonaldmichaMisDocumentosController {
     }
 
     private boolean puedeConfirmar(RonaldmichaDocumentoEmitido d) {
-        boolean boleta = RonaldmichaReporte.BOLETA_PAGO.tipo().equals(d.tipo());
+        boolean boleta = RonaldmichaelReporte.BOLETA_PAGO.tipo().equals(d.tipo());
         return d.cargoPendiente() && (!boleta || disponibles.contains(d.periodo()));
     }
 

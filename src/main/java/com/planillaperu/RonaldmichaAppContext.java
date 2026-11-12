@@ -17,26 +17,26 @@ import com.planillaperu.repository.RonaldmichaPlanillaRepository;
 import com.planillaperu.repository.RonaldmichaTrabajadorRepository;
 import com.planillaperu.repository.RonaldmichaUsuarioRepository;
 import com.planillaperu.repository.RonaldmichaVacacionRepository;
-import com.planillaperu.service.RonaldmichaAprobacionService;
-import com.planillaperu.service.RonaldmichaAsistenciaService;
-import com.planillaperu.service.RonaldmichaAuditoriaService;
-import com.planillaperu.service.RonaldmichaBeneficiosService;
-import com.planillaperu.service.RonaldmichaConsultaReniec;
-import com.planillaperu.service.RonaldmichaDatosDemoService;
-import com.planillaperu.service.RonaldmichaEmpresaService;
-import com.planillaperu.service.RonaldmichaInicioService;
-import com.planillaperu.service.RonaldmichaLiquidacionService;
-import com.planillaperu.service.RonaldmichaParametrosService;
-import com.planillaperu.service.RonaldmichaMailService;
-import com.planillaperu.service.RonaldmichaPeriodoService;
-import com.planillaperu.service.RonaldmichaPlanillaService;
-import com.planillaperu.service.RonaldmichaReportesService;
-import com.planillaperu.service.RonaldmichaResumenAnualService;
-import com.planillaperu.service.RonaldmichaRespaldoService;
-import com.planillaperu.service.RonaldmichaSeguridadService;
-import com.planillaperu.service.RonaldmichaTrabajadorService;
-import com.planillaperu.service.RonaldmichaUsuarioService;
-import com.planillaperu.service.RonaldmichaVacacionesService;
+import com.planillaperu.service.RonaldmichaelAprobacionService;
+import com.planillaperu.service.RonaldmichaelAsistenciaService;
+import com.planillaperu.service.RonaldmichaelAuditoriaService;
+import com.planillaperu.service.RonaldmichaelBeneficiosService;
+import com.planillaperu.service.RonaldmichaelConsultaReniec;
+import com.planillaperu.service.RonaldmichaelDatosDemoService;
+import com.planillaperu.service.RonaldmichaelEmpresaService;
+import com.planillaperu.service.RonaldmichaelInicioService;
+import com.planillaperu.service.RonaldmichaelLiquidacionService;
+import com.planillaperu.service.RonaldmichaelParametrosService;
+import com.planillaperu.service.RonaldmichaelMailService;
+import com.planillaperu.service.RonaldmichaelPeriodoService;
+import com.planillaperu.service.RonaldmichaelPlanillaService;
+import com.planillaperu.service.RonaldmichaelReportesService;
+import com.planillaperu.service.RonaldmichaelResumenAnualService;
+import com.planillaperu.service.RonaldmichaelRespaldoService;
+import com.planillaperu.service.RonaldmichaelSeguridadService;
+import com.planillaperu.service.RonaldmichaelTrabajadorService;
+import com.planillaperu.service.RonaldmichaelUsuarioService;
+import com.planillaperu.service.RonaldmichaelVacacionesService;
 import com.planillaperu.ui.RonaldmichaEvento;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -58,26 +58,26 @@ public final class RonaldmichaAppContext {
     private static final String USUARIO_SISTEMA = "sistema";
 
     private final RonaldmichaDatabase database;
-    private final RonaldmichaAuditoriaService auditoriaService;
-    private final RonaldmichaParametrosService parametroService;
-    private final RonaldmichaUsuarioService usuarioService;
-    private final RonaldmichaSeguridadService seguridadService;
-    private final RonaldmichaTrabajadorService trabajadorService;
-    private final RonaldmichaAprobacionService aprobacionService;
-    private final RonaldmichaAsistenciaService asistenciaService;
-    private final RonaldmichaPeriodoService periodoService;
-    private final RonaldmichaPlanillaService planillaService;
-    private final RonaldmichaBeneficiosService beneficiosService;
-    private final RonaldmichaVacacionesService vacacionesService;
-    private final RonaldmichaLiquidacionService liquidacionService;
-    private final RonaldmichaReportesService reportesService;
-    private final RonaldmichaInicioService inicioService;
-    private final RonaldmichaResumenAnualService resumenAnualService;
-    private final RonaldmichaRespaldoService respaldoService;
-    private final RonaldmichaMailService mailService = RonaldmichaMailService.NO_CONFIGURADO;
-    private final RonaldmichaDatosDemoService datosDemoService;
-    private final RonaldmichaEmpresaService empresaService;
-    private final RonaldmichaConsultaReniec consultaReniec = RonaldmichaConsultaReniec.NO_CONECTADA;
+    private final RonaldmichaelAuditoriaService auditoriaService;
+    private final RonaldmichaelParametrosService parametroService;
+    private final RonaldmichaelUsuarioService usuarioService;
+    private final RonaldmichaelSeguridadService seguridadService;
+    private final RonaldmichaelTrabajadorService trabajadorService;
+    private final RonaldmichaelAprobacionService aprobacionService;
+    private final RonaldmichaelAsistenciaService asistenciaService;
+    private final RonaldmichaelPeriodoService periodoService;
+    private final RonaldmichaelPlanillaService planillaService;
+    private final RonaldmichaelBeneficiosService beneficiosService;
+    private final RonaldmichaelVacacionesService vacacionesService;
+    private final RonaldmichaelLiquidacionService liquidacionService;
+    private final RonaldmichaelReportesService reportesService;
+    private final RonaldmichaelInicioService inicioService;
+    private final RonaldmichaelResumenAnualService resumenAnualService;
+    private final RonaldmichaelRespaldoService respaldoService;
+    private final RonaldmichaelMailService mailService = RonaldmichaelMailService.NO_CONFIGURADO;
+    private final RonaldmichaelDatosDemoService datosDemoService;
+    private final RonaldmichaelEmpresaService empresaService;
+    private final RonaldmichaelConsultaReniec consultaReniec = RonaldmichaelConsultaReniec.NO_CONECTADA;
 
     private RonaldmichaUsuario sesion;
     private final ObjectProperty<YearMonth> periodo = new SimpleObjectProperty<>();
@@ -93,45 +93,45 @@ public final class RonaldmichaAppContext {
 
     private RonaldmichaAppContext(RonaldmichaDatabase database, Clock reloj) {
         this.database = database;
-        this.auditoriaService = new RonaldmichaAuditoriaService(new RonaldmichaAuditoriaRepository(database), reloj);
+        this.auditoriaService = new RonaldmichaelAuditoriaService(new RonaldmichaAuditoriaRepository(database), reloj);
         this.auditoriaService.suscribir(r -> publicar(r.accion()));
         RonaldmichaPeriodoRepository periodoRepository = new RonaldmichaPeriodoRepository(database);
         RonaldmichaTrabajadorRepository trabajadorRepository = new RonaldmichaTrabajadorRepository(database);
-        this.parametroService = new RonaldmichaParametrosService(new RonaldmichaParametrosRepository(database), periodoRepository,
+        this.parametroService = new RonaldmichaelParametrosService(new RonaldmichaParametrosRepository(database), periodoRepository,
                 trabajadorRepository, auditoriaService, reloj);
         RonaldmichaConfiguracionRepository configuracionRepository = new RonaldmichaConfiguracionRepository(database);
-        this.usuarioService = new RonaldmichaUsuarioService(new RonaldmichaUsuarioRepository(database), trabajadorRepository,
+        this.usuarioService = new RonaldmichaelUsuarioService(new RonaldmichaUsuarioRepository(database), trabajadorRepository,
                 configuracionRepository, auditoriaService, reloj);
-        this.seguridadService = new RonaldmichaSeguridadService(configuracionRepository, usuarioService, auditoriaService);
-        this.empresaService = new RonaldmichaEmpresaService(new RonaldmichaEmpresaRepository(database), auditoriaService);
+        this.seguridadService = new RonaldmichaelSeguridadService(configuracionRepository, usuarioService, auditoriaService);
+        this.empresaService = new RonaldmichaelEmpresaService(new RonaldmichaEmpresaRepository(database), auditoriaService);
         RonaldmichaAprobacionRepository aprobacionRepository = new RonaldmichaAprobacionRepository(database);
-        this.trabajadorService = new RonaldmichaTrabajadorService(trabajadorRepository, aprobacionRepository, parametroService,
+        this.trabajadorService = new RonaldmichaelTrabajadorService(trabajadorRepository, aprobacionRepository, parametroService,
                 empresaService, auditoriaService, reloj);
-        this.aprobacionService = new RonaldmichaAprobacionService(aprobacionRepository, auditoriaService, reloj);
-        this.periodoService = new RonaldmichaPeriodoService(periodoRepository, reloj);
+        this.aprobacionService = new RonaldmichaelAprobacionService(aprobacionRepository, auditoriaService, reloj);
+        this.periodoService = new RonaldmichaelPeriodoService(periodoRepository, reloj);
         RonaldmichaAsistenciaRepository asistenciaRepository = new RonaldmichaAsistenciaRepository(database);
-        this.asistenciaService = new RonaldmichaAsistenciaService(asistenciaRepository, trabajadorRepository,
+        this.asistenciaService = new RonaldmichaelAsistenciaService(asistenciaRepository, trabajadorRepository,
                 periodoService, parametroService, auditoriaService, reloj);
-        this.planillaService = new RonaldmichaPlanillaService(trabajadorRepository, asistenciaRepository,
+        this.planillaService = new RonaldmichaelPlanillaService(trabajadorRepository, asistenciaRepository,
                 new RonaldmichaPlanillaRepository(database), periodoRepository, periodoService, parametroService,
                 asistenciaService, auditoriaService, reloj);
-        this.beneficiosService = new RonaldmichaBeneficiosService(trabajadorRepository, new RonaldmichaBeneficioRepository(database),
+        this.beneficiosService = new RonaldmichaelBeneficiosService(trabajadorRepository, new RonaldmichaBeneficioRepository(database),
                 planillaService, parametroService, empresaService, auditoriaService);
         RonaldmichaVacacionRepository vacacionRepository = new RonaldmichaVacacionRepository(database);
-        this.vacacionesService = new RonaldmichaVacacionesService(trabajadorRepository, vacacionRepository,
+        this.vacacionesService = new RonaldmichaelVacacionesService(trabajadorRepository, vacacionRepository,
                 periodoService, empresaService, auditoriaService, reloj);
-        this.liquidacionService = new RonaldmichaLiquidacionService(trabajadorRepository, new RonaldmichaLiquidacionRepository(database),
+        this.liquidacionService = new RonaldmichaelLiquidacionService(trabajadorRepository, new RonaldmichaLiquidacionRepository(database),
                 vacacionRepository, beneficiosService, parametroService, periodoService, empresaService,
                 auditoriaService, reloj);
         RonaldmichaDocumentoRepository documentoRepository = new RonaldmichaDocumentoRepository(database);
-        this.reportesService = new RonaldmichaReportesService(trabajadorRepository, planillaService, beneficiosService,
+        this.reportesService = new RonaldmichaelReportesService(trabajadorRepository, planillaService, beneficiosService,
                 liquidacionService, vacacionesService, parametroService, empresaService, documentoRepository,
                 mailService, auditoriaService, reloj);
-        this.inicioService = new RonaldmichaInicioService(planillaService, parametroService, empresaService, vacacionesService,
+        this.inicioService = new RonaldmichaelInicioService(planillaService, parametroService, empresaService, vacacionesService,
                 periodoService, asistenciaRepository, documentoRepository, aprobacionService, reloj);
-        this.resumenAnualService = new RonaldmichaResumenAnualService(planillaService, beneficiosService, auditoriaService, reloj);
-        this.respaldoService = new RonaldmichaRespaldoService(database, auditoriaService, reloj);
-        this.datosDemoService = new RonaldmichaDatosDemoService(database, auditoriaService);
+        this.resumenAnualService = new RonaldmichaelResumenAnualService(planillaService, beneficiosService, auditoriaService, reloj);
+        this.respaldoService = new RonaldmichaelRespaldoService(database, auditoriaService, reloj);
+        this.datosDemoService = new RonaldmichaelDatosDemoService(database, auditoriaService);
         this.periodo.set(periodoService.periodoDeTrabajo());
     }
 
@@ -145,79 +145,79 @@ public final class RonaldmichaAppContext {
         return database;
     }
 
-    public RonaldmichaAuditoriaService auditoria() {
+    public RonaldmichaelAuditoriaService auditoria() {
         return auditoriaService;
     }
 
-    public RonaldmichaParametrosService parametros() {
+    public RonaldmichaelParametrosService parametros() {
         return parametroService;
     }
 
-    public RonaldmichaUsuarioService usuarios() {
+    public RonaldmichaelUsuarioService usuarios() {
         return usuarioService;
     }
 
-    public RonaldmichaSeguridadService seguridad() {
+    public RonaldmichaelSeguridadService seguridad() {
         return seguridadService;
     }
 
-    public RonaldmichaTrabajadorService trabajadores() {
+    public RonaldmichaelTrabajadorService trabajadores() {
         return trabajadorService;
     }
 
-    public RonaldmichaAprobacionService aprobaciones() {
+    public RonaldmichaelAprobacionService aprobaciones() {
         return aprobacionService;
     }
 
-    public RonaldmichaAsistenciaService asistencia() {
+    public RonaldmichaelAsistenciaService asistencia() {
         return asistenciaService;
     }
 
-    public RonaldmichaBeneficiosService beneficios() {
+    public RonaldmichaelBeneficiosService beneficios() {
         return beneficiosService;
     }
 
-    public RonaldmichaInicioService inicio() {
+    public RonaldmichaelInicioService inicio() {
         return inicioService;
     }
 
-    public RonaldmichaResumenAnualService resumenAnual() {
+    public RonaldmichaelResumenAnualService resumenAnual() {
         return resumenAnualService;
     }
 
-    public RonaldmichaRespaldoService respaldo() {
+    public RonaldmichaelRespaldoService respaldo() {
         return respaldoService;
     }
 
-    public RonaldmichaReportesService reportes() {
+    public RonaldmichaelReportesService reportes() {
         return reportesService;
     }
 
-    public RonaldmichaLiquidacionService liquidaciones() {
+    public RonaldmichaelLiquidacionService liquidaciones() {
         return liquidacionService;
     }
 
-    public RonaldmichaVacacionesService vacaciones() {
+    public RonaldmichaelVacacionesService vacaciones() {
         return vacacionesService;
     }
 
-    public RonaldmichaPlanillaService planilla() {
+    public RonaldmichaelPlanillaService planilla() {
         return planillaService;
     }
 
-    public RonaldmichaPeriodoService periodos() {
+    public RonaldmichaelPeriodoService periodos() {
         return periodoService;
     }
 
-    public RonaldmichaDatosDemoService datosDemo() {
+    public RonaldmichaelDatosDemoService datosDemo() {
         return datosDemoService;
     }
 
-    public RonaldmichaEmpresaService empresa() {
+    public RonaldmichaelEmpresaService empresa() {
         return empresaService;
     }
 
-    public RonaldmichaConsultaReniec reniec() {
+    public RonaldmichaelConsultaReniec reniec() {
         return consultaReniec;
     }
 

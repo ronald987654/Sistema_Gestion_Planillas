@@ -6,13 +6,13 @@ import com.planillaperu.domain.RonaldmichaRol;
 import com.planillaperu.domain.RonaldmichaSemestreBeneficio;
 import com.planillaperu.domain.RonaldmichaTipoBeneficio;
 import com.planillaperu.domain.RonaldmichaTrabajador;
-import com.planillaperu.service.RonaldmichaAccesoDenegadoException;
-import com.planillaperu.service.RonaldmichaBeneficiosService;
-import com.planillaperu.service.RonaldmichaBeneficiosService.Ajuste;
-import com.planillaperu.service.RonaldmichaBeneficiosService.Beneficio;
-import com.planillaperu.service.RonaldmichaBeneficiosService.FilaBeneficio;
-import com.planillaperu.service.RonaldmichaBeneficiosService.Totales;
-import com.planillaperu.service.RonaldmichaValidacionException;
+import com.planillaperu.service.RonaldmichaelAccesoDenegadoException;
+import com.planillaperu.service.RonaldmichaelBeneficiosService;
+import com.planillaperu.service.RonaldmichaelBeneficiosService.Ajuste;
+import com.planillaperu.service.RonaldmichaelBeneficiosService.Beneficio;
+import com.planillaperu.service.RonaldmichaelBeneficiosService.FilaBeneficio;
+import com.planillaperu.service.RonaldmichaelBeneficiosService.Totales;
+import com.planillaperu.service.RonaldmichaelValidacionException;
 import com.planillaperu.ui.components.RonaldmichaConfirmButton;
 import com.planillaperu.ui.components.RonaldmichaEmptyState;
 import com.planillaperu.ui.components.RonaldmichaExportButton;
@@ -151,7 +151,7 @@ public class RonaldmichaBeneficiosController {
         tarjetaTabla.getStyleClass().addAll("card", "table-card");
         VBox.setVgrow(tabla, Priority.ALWAYS);
 
-        Label nota = new Label(grati ? RonaldmichaBeneficiosService.NOTA_GRATIFICACION : RonaldmichaBeneficiosService.NOTA_CTS);
+        Label nota = new Label(grati ? RonaldmichaelBeneficiosService.NOTA_GRATIFICACION : RonaldmichaelBeneficiosService.NOTA_CTS);
         nota.setWrapText(true);
         nota.getStyleClass().addAll("text-muted", "nota-legal");
 
@@ -175,12 +175,12 @@ public class RonaldmichaBeneficiosController {
         cambiandoPestana = true;
         pestanas.selectToggle(semestre.semestre() == 1 ? pestana1 : pestana2);
         cambiandoPestana = false;
-        titulo.setText(RonaldmichaBeneficiosService.etiqueta(semestre));
-        periodo.setText("Periodo " + RonaldmichaBeneficiosService.periodoTexto(semestre) + " · "
+        titulo.setText(RonaldmichaelBeneficiosService.etiqueta(semestre));
+        periodo.setText("Periodo " + RonaldmichaelBeneficiosService.periodoTexto(semestre) + " · "
                 + (tipo == RonaldmichaTipoBeneficio.CTS ? "depósito" : "pago") + " hasta el " + RonaldmichaFormatos.fecha(semestre.fechaPago()));
         try {
             datos = contexto.beneficios().consultar(contexto.sesion(), semestre);
-        } catch (RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(raiz, e.getMessage());
             return;
         }
@@ -289,7 +289,7 @@ public class RonaldmichaBeneficiosController {
                 : monto("Básico", 110, FilaBeneficio::basico, Totales::basico));
         columnas.add(monto("Asig. familiar", 100, FilaBeneficio::asignacionFamiliar, Totales::asignacionFamiliar));
         for (YearMonth mes : semestre.meses()) {
-            TableColumn<Fila, BigDecimal> col = monto(RonaldmichaBeneficiosService.mesCorto(mes), 92,
+            TableColumn<Fila, BigDecimal> col = monto(RonaldmichaelBeneficiosService.mesCorto(mes), 92,
                     f -> f.variables().get(mes), t -> t.variables().get(mes));
             col.getStyleClass().add("col-mes");
             columnas.add(col);
@@ -441,7 +441,7 @@ public class RonaldmichaBeneficiosController {
             cargar();
             RonaldmichaToast.exito(raiz, cambios.isEmpty() ? "No hubo cambios."
                     : cambios.size() + (cambios.size() == 1 ? " ajuste guardado." : " ajustes guardados."));
-        } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(raiz, e.getMessage());
         }
     }
@@ -464,7 +464,7 @@ public class RonaldmichaBeneficiosController {
             int n = contexto.beneficios().restablecer(contexto.sesion(), semestre);
             irA(semestre);
             RonaldmichaToast.exito(raiz, n + (n == 1 ? " ajuste quitado" : " ajustes quitados") + ": cálculo automático.");
-        } catch (RonaldmichaValidacionException | RonaldmichaAccesoDenegadoException e) {
+        } catch (RonaldmichaelValidacionException | RonaldmichaelAccesoDenegadoException e) {
             RonaldmichaToast.error(raiz, e.getMessage());
         }
     }
@@ -476,7 +476,7 @@ public class RonaldmichaBeneficiosController {
                 + "envió nada.\n\n" + conCorreo + " de " + datos.filas().size()
                 + " trabajadores tienen correo registrado. Mientras tanto, use Exportar para generar los documentos.");
         texto.setWrapText(true);
-        RonaldmichaModal modal = new RonaldmichaModal("Enviar · " + RonaldmichaBeneficiosService.etiqueta(semestre), texto).ancho(560);
+        RonaldmichaModal modal = new RonaldmichaModal("Enviar · " + RonaldmichaelBeneficiosService.etiqueta(semestre), texto).ancho(560);
         modal.botonCancelar().setText("Cerrar");
         modal.mostrar(raiz);
     }
@@ -499,7 +499,7 @@ public class RonaldmichaBeneficiosController {
                 return null;
             }
         });
-        RonaldmichaBeneficiosService b = contexto.beneficios();
+        RonaldmichaelBeneficiosService b = contexto.beneficios();
         String base = (tipo == RonaldmichaTipoBeneficio.GRATIFICACION ? "gratificacion_" : "cts_") + semestre.anio()
                 + String.format("%02d", semestre.mesPago().getValue());
         Supplier<Long> id = () -> selector.getValue() == null ? null : selector.getValue().id();
@@ -519,7 +519,7 @@ public class RonaldmichaBeneficiosController {
                                 + "(documento, nombre, banco, cuenta e importe).",
                         descarga("Excel", base + "_pagos.xlsx", id, x -> b.pagosExcel(contexto.sesion(), semestre, x)),
                         descarga("TXT", base + "_pagos.txt", id, x -> b.pagosTxt(contexto.sesion(), semestre, x))));
-        RonaldmichaModal modal = new RonaldmichaModal("Exportar · " + RonaldmichaBeneficiosService.etiqueta(semestre), contenido).ancho(620);
+        RonaldmichaModal modal = new RonaldmichaModal("Exportar · " + RonaldmichaelBeneficiosService.etiqueta(semestre), contenido).ancho(620);
         modal.botonCancelar().setText("Cerrar");
         modal.mostrar(raiz);
     }
